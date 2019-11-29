@@ -5,15 +5,8 @@ using System.Threading.Tasks;
 
 namespace CLI.Houston
 {
-
-    public class App {
-        public Task RunAsync() {
-            return Task.FromResult(true);
-        }
-    }
     class Program
     {
-
         static Task Main(string[] args)
         {
              var services = new ServiceCollection();
