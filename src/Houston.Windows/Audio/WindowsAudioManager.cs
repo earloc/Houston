@@ -1,3 +1,5 @@
+using System;
+using System.Runtime.InteropServices;
 using Houston.Audio;
 
 namespace Houston.Audio.Windows
