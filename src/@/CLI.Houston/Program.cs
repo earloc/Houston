@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Houston;
 using System.Threading.Tasks;
+using Houston.Audio;
+using Houston.Audio.Windows;
 
 namespace CLI.Houston
 {
@@ -21,7 +23,9 @@ namespace CLI.Houston
         }
 
         static void Configure(ServiceCollection services) {
-            services.AddHouston();
+            services.AddHouston(x => x.AddAudioManager<WindowsAudioManager>());
+
+            services.AddScoped<App>();
         }
     }
 }

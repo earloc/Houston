@@ -3,7 +3,7 @@ namespace Houston.Audio
 {
     public interface IAudioManager
     {
-        float MasterVolume { get; set; }
+        int MasterVolume { get; set; }
 
         bool IsMasterMuted { get; set; }
     }

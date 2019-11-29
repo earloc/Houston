@@ -11,8 +11,8 @@ namespace Houston.Audio.Windows
             set => UnsafeNativeMethods.SetMasterVolumeMute(value);
         }
 
-        public float MasterVolume { 
-            get => UnsafeNativeMethods.GetMasterVolume(); 
+        public int MasterVolume { 
+            get => Convert.ToInt32(Math.Round(UnsafeNativeMethods.GetMasterVolume()));
             set => UnsafeNativeMethods.SetMasterVolume(value);
         }
 

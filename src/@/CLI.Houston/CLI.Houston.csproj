@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Houston.Microsoft.Extensions.DependencyInjection\Houston.Microsoft.Extensions.DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\Houston.Windows\Houston.Windows.csproj" />
   </ItemGroup>
 
 </Project>
