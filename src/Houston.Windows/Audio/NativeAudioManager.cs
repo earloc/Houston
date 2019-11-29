@@ -3,14 +3,14 @@ using System.Runtime.InteropServices;
 // ReSharper disable SuspiciousTypeConversion.Global
 // ReSharper disable InconsistentNaming
 
-namespace VideoPlayerController
+namespace Houston.Audio.Windows
 {
     /// <summary>
     /// Controls audio using the Windows CoreAudio API
     /// from: http://stackoverflow.com/questions/14306048/controling-volume-mixer
     /// and: http://netcoreaudio.codeplex.com/
     /// </summary>
-    public static class AudioManager
+    internal static class NativeAudioManager
     {
         #region Master Volume Manipulation
 
