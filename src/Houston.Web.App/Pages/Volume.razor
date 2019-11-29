@@ -1,0 +1,37 @@
+﻿@page "/volume"
+@using VideoPlayerController;
+@using MatBlazor;
+
+<h1>@MasterVolume % </h1>
+
+<p>Mute: <MatSlideToggle @bind-Checked="@IsMuted" /></p>
+<p>Lautstärke: <MatSlider min="1" max="100" class="slider" @bind-Value="MasterVolume"  Discrete="true" Disabled="@IsMuted" /></p>
+
+@code {
+
+    private float _MasterVolume;
+
+    public decimal MasterVolume {
+        get => Convert.ToDecimal(_MasterVolume);
+        set {
+            _MasterVolume = Convert.ToSingle(value);
+            AudioManager.SetMasterVolume(_MasterVolume);
+        }
+    }
+
+    private bool _IsMuted = false;
+
+    public bool IsMuted {
+        get => _IsMuted;
+        set {
+            _IsMuted = value;
+            AudioManager.SetMasterVolumeMute(value);
+        }
+    }
+
+
+
+    protected override void OnInitialized() {
+        _MasterVolume = AudioManager.GetMasterVolume();
+    }
+}
