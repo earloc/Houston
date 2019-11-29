@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Houston\Houston.csproj" />
+    <ProjectReference Include="..\Houston.Windows\Houston.Windows.csproj" />
   </ItemGroup>
 
 </Project>

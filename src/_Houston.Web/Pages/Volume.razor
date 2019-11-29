@@ -1,5 +1,7 @@
 ﻿@page "/volume"
 @using MatBlazor;
+@using Houston.Audio;
+@inject IAudioManager AudioManager;
 
 <h1>@MasterVolume % </h1>
 
@@ -14,7 +16,7 @@
         get => Convert.ToDecimal(_MasterVolume);
         set {
             _MasterVolume = Convert.ToSingle(value);
-            AudioManager.SetMasterVolume(_MasterVolume);
+            AudioManager.MasterVolume = _MasterVolume;
         }
     }
 
@@ -24,13 +26,13 @@
         get => _IsMuted;
         set {
             _IsMuted = value;
-            AudioManager.SetMasterVolumeMute(value);
+            AudioManager.IsMasterMuted = value;
         }
     }
 
 
 
     protected override void OnInitialized() {
-        _MasterVolume = AudioManager.GetMasterVolume();
+        _MasterVolume = AudioManager.MasterVolume;
     }
 }

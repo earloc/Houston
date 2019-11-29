@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using EmbeddedBlazorContent;
+using Houston.Audio;
+using Houston.Audio.Windows;
 
 namespace Houston
 {
@@ -28,7 +30,7 @@ namespace Houston
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            services.AddSingleton<IAudioManager, WindowsAudioManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
