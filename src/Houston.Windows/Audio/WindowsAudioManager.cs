@@ -23,6 +23,8 @@ namespace Houston.Audio.Windows
     /// from: http://stackoverflow.com/questions/14306048/controling-volume-mixer
     /// and: http://netcoreaudio.codeplex.com/
     /// </summary>
+
+#nullable disable
     internal static class UnsafeNativeMethods
     {
         #region Master Volume Manipulation
@@ -631,4 +633,5 @@ namespace Houston.Audio.Windows
 
     #endregion
 
+#nullable restore
 }
