@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Houston.Web", "_Houston.Web\Houston.Web.csproj", "{16D2F636-B817-43C1-8F75-0565C0D16EC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Houston.Web", "App.Houston.Web\App.Houston.Web.csproj", "{16D2F636-B817-43C1-8F75-0565C0D16EC3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Houston", "Houston\Houston.csproj", "{FBD6A45A-ADF2-47FE-9044-CD4A5E0ED5F6}"
 EndProject
