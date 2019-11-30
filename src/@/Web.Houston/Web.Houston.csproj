@@ -10,4 +10,10 @@
     <PackageReference Include="MatBlazor" Version="1.9.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Houston\Houston.csproj" />
+    <ProjectReference Include="..\..\Houston.Microsoft.Extensions.DependencyInjection\Houston.Microsoft.Extensions.DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\Houston.Windows\Houston.Windows.csproj" />
+  </ItemGroup>
+
 </Project>
