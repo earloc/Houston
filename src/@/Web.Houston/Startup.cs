@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Web.Houston.Pages;
+using Houston;
+using Houston.Audio.Windows;
 
 namespace Web.Houston
 {
@@ -28,6 +31,10 @@ namespace Web.Houston
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            services.AddHouston(options => options.UseVolumeControl<WindowsVolumeControl>());
+
+            services.AddScoped<IndexViewModel>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

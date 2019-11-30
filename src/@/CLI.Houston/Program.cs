@@ -23,7 +23,7 @@ namespace CLI.Houston
         }
 
         static void Configure(ServiceCollection services) {
-            services.AddHouston(x => x.AddVolumeControl<WindowsVolumeControl>());
+            services.AddHouston(x => x.UseVolumeControl<WindowsVolumeControl>());
 
             services.AddScoped<App>();
         }

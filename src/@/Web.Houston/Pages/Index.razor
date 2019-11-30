@@ -1,6 +1,18 @@
 ﻿@page "/"
 @inject IndexViewModel ViewModel
 
-<h1>@ViewModel.CurrentVolume</h1>
+<h1>Volumne: @ViewModel.CurrentVolume %</h1>
 
-Welcome to your new app.
+<MatCheckbox @bind-Checked="ViewModel.IsMuted">
+</MatCheckbox>
+
+<MatSlider ValueMin="ViewModel.MinVolume" 
+           ValueMax="ViewModel.MaxVolume" 
+           Discrete="true" 
+           @bind-Value="ViewModel.CurrentVolume" 
+           @bind-Value:event="ViewModel.CurrentVolumeChanged"
+           Disabled="ViewModel.IsMuted">
+</MatSlider>
+
+@code {
+}
