@@ -5,7 +5,7 @@ namespace Houston.Audio
     {
         private readonly IAudioManager _Audio;
 
-        int? MaxVolume { get; set; }
+        int? MaxVolume { get; set; } = 50;
 
         public VolumeLimiter(IAudioManager audio)
         {
