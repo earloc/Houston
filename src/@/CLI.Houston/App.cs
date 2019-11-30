@@ -20,8 +20,10 @@ namespace CLI.Houston
             var run = true;
             Console.CancelKeyPress += (sender, e) => run = false;
 
-            Task.Run( async () => {
-                while(run) {
+            Task.Run(async () =>
+            {
+                while (run)
+                {
                     await Task.Delay(2000);
                     _Obrigkeit.EnforceLimit();
                 }
@@ -34,8 +36,9 @@ namespace CLI.Houston
                 Console.SetCursorPosition(0, 0);
                 System.Console.WriteLine("                                 ");
                 Console.SetCursorPosition(0, 0);
-                var mutedState = _Audio.IsMasterMuted? "Off" : "On ";
-                Console.WriteLine($"{mutedState} / {_Audio.MasterVolume}");
+                var mutedState = _Audio.IsMasterMuted ? "Off" : "On ";
+                var limiterState = _Obrigkeit.IsEnabled ? $"({_Obrigkeit.MaxVolume})" : "";
+                Console.WriteLine($"{mutedState} / {_Audio.MasterVolume}{limiterState}");
 
                 if (!Console.KeyAvailable)
                 {
@@ -43,16 +46,36 @@ namespace CLI.Houston
                 }
 
                 var pressed = Console.ReadKey();
-                if (pressed.Key == ConsoleKey.Multiply) {
+                if (pressed.Key == ConsoleKey.Multiply)
+                {
                     _Audio.IsMasterMuted = !_Audio.IsMasterMuted;
                 }
 
-                if (pressed.Key == ConsoleKey.Add) {
+                if (pressed.Key == ConsoleKey.Add)
+                {
                     _Audio.MasterVolume = _Audio.MasterVolume + 5;
                 }
-                if (pressed.Key == ConsoleKey.Subtract) {
+
+                if (pressed.Key == ConsoleKey.Subtract)
+                {
                     _Audio.MasterVolume = _Audio.MasterVolume - 5;
                 }
+
+                if (pressed.Key == ConsoleKey.Tab)
+                {
+                    _Obrigkeit.IsEnabled = !_Obrigkeit.IsEnabled;
+                }
+
+                if (pressed.Key == ConsoleKey.W)
+                {
+                    _Obrigkeit.MaxVolume += 5;
+                }
+
+                if (pressed.Key == ConsoleKey.W)
+                {
+                    _Obrigkeit.MaxVolume -= 5;
+                }
+
             }
 
         }
