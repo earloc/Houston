@@ -3,15 +3,15 @@ namespace Houston.Audio
 {
     public class VolumeLimiter
     {
-        private readonly IAudioManager _Audio;
+        private readonly IVolumeControl _Master;
 
         public int MaxVolume { get; set; } = 10;
 
         public bool IsEnabled {get; set;}
 
-        public VolumeLimiter(IAudioManager audio)
+        public VolumeLimiter(IVolumeControl master)
         {
-            _Audio = audio;
+            _Master = master;
         }
 
         public void EnforceLimit()
@@ -19,11 +19,11 @@ namespace Houston.Audio
             if (!IsEnabled)
                 return;
 
-            var currentVolume = _Audio.MasterVolume;
+            var currentVolume = _Master.Current;
 
             if (MaxVolume < currentVolume)
             {
-                _Audio.MasterVolume = MaxVolume;
+                _Master.Current = MaxVolume;
             }
         }
     }

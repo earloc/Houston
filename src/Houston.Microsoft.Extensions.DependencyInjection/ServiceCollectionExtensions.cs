@@ -13,7 +13,7 @@ namespace Houston
 
             builder?.Invoke(options);
 
-            services.AddSingleton(typeof(IAudioManager), options.AudioManagerType);
+            services.AddSingleton(typeof(IVolumeControl), options.AudioManagerType);
             services.AddScoped<VolumeLimiter>();
 
             return services;

@@ -4,14 +4,14 @@ using Houston.Audio;
 
 namespace Houston.Audio.Windows
 {
-    public class WindowsAudioManager : IAudioManager
+    public class WindowsVolumeControl : IVolumeControl
     {
-        public bool IsMasterMuted {
+        public bool IsMuted {
             get => UnsafeNativeMethods.GetMasterVolumeMute();
             set => UnsafeNativeMethods.SetMasterVolumeMute(value);
         }
 
-        public int MasterVolume { 
+        public int Current { 
             get => Convert.ToInt32(Math.Round(UnsafeNativeMethods.GetMasterVolume()));
             set => UnsafeNativeMethods.SetMasterVolume(value);
         }

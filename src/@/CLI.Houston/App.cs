@@ -6,13 +6,13 @@ namespace CLI.Houston
 {
     public class App
     {
-        public App(IAudioManager audio, VolumeLimiter obrigkeit)
+        public App(IVolumeControl master, VolumeLimiter obrigkeit)
         {
-            _Audio = audio;
+            _Master = master;
             _Obrigkeit = obrigkeit;
         }
 
-        private readonly IAudioManager _Audio;
+        private readonly IVolumeControl _Master;
         private readonly VolumeLimiter _Obrigkeit;
 
         public async Task RunAsync()
@@ -20,7 +20,7 @@ namespace CLI.Houston
             var run = true;
             Console.CancelKeyPress += (sender, e) => run = false;
 
-            Task.Run(async () =>
+            var limitTask = Task.Run(async () =>
             {
                 while (run)
                 {
@@ -36,9 +36,9 @@ namespace CLI.Houston
                 Console.SetCursorPosition(0, 0);
                 System.Console.WriteLine("                                 ");
                 Console.SetCursorPosition(0, 0);
-                var mutedState = _Audio.IsMasterMuted ? "Off" : "On ";
+                var mutedState = _Master.IsMuted ? "Off" : "On ";
                 var limiterState = _Obrigkeit.IsEnabled ? $"({_Obrigkeit.MaxVolume})" : "";
-                Console.WriteLine($"{mutedState} / {_Audio.MasterVolume}{limiterState}");
+                Console.WriteLine($"{mutedState} / {_Master.Current}{limiterState}");
 
                 if (!Console.KeyAvailable)
                 {
@@ -48,17 +48,17 @@ namespace CLI.Houston
                 var pressed = Console.ReadKey();
                 if (pressed.Key == ConsoleKey.Multiply)
                 {
-                    _Audio.IsMasterMuted = !_Audio.IsMasterMuted;
+                    _Master.IsMuted = !_Master.IsMuted;
                 }
 
                 if (pressed.Key == ConsoleKey.Add)
                 {
-                    _Audio.MasterVolume = _Audio.MasterVolume + 5;
+                    _Master.Current = _Master.Current + 5;
                 }
 
                 if (pressed.Key == ConsoleKey.Subtract)
                 {
-                    _Audio.MasterVolume = _Audio.MasterVolume - 5;
+                    _Master.Current = _Master.Current - 5;
                 }
 
                 if (pressed.Key == ConsoleKey.Tab)
@@ -77,6 +77,8 @@ namespace CLI.Houston
                 }
 
             }
+
+            await limitTask;
 
         }
     }
