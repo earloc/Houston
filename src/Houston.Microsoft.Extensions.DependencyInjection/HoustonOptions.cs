@@ -6,10 +6,10 @@ namespace Houston
 {
     public class HoustonOptions
     {
-        internal Type AudioManagerType { get; private set; } = typeof(InMemoryVolumeControl);
+        internal Type VolumeControlType { get; private set; } = typeof(InMemoryVolumeControl);
 
-        public HoustonOptions AddAudioManager<T>() where T : IVolumeControl {
-            AudioManagerType = typeof(T);
+        public HoustonOptions AddVolumeControl<T>() where T : IVolumeControl {
+            VolumeControlType = typeof(T);
             return this;
         }
 
