@@ -2,29 +2,30 @@
 @implements IDisposable
 @inject AudioControlViewModel ViewModel
 
-<h1>Volumne: @ViewModel.CurrentVolume %</h1>
+<h1>Volume: @ViewModel.CurrentVolume %</h1>
 
-<MatCheckbox @bind-Checked="@ViewModel.IsMuted">
-</MatCheckbox>
+<span>
+  <MatCheckbox Label="mute" @bind-Checked="@ViewModel.IsMuted">
+  </MatCheckbox>
+  <MatSlider Label="Volume" ValueMin="@ViewModel.MinVolume"
+             ValueMax="@ViewModel.MaxVolume"
+             Discrete="true"
+             @bind-Value="@ViewModel.CurrentVolume"
+             Disabled="@ViewModel.IsMuted">
+  </MatSlider>
+</span>
+<span>
+  <MatCheckbox Label="limit" @bind-Checked="@ViewModel.IsVolumeLimitEnabled">
+  </MatCheckbox>
+  <MatSlider ValueMin="@ViewModel.MinVolume"
+             ValueMax="@ViewModel.MaxVolume"
+             Discrete="true"
+             @bind-Value="@ViewModel.LimitVolume"
+             Disabled="@ViewModel.IsVolumeLimitDisabled">
+  </MatSlider>
+</span>
 
-<MatSlider ValueMin="@ViewModel.MinVolume"
-           ValueMax="@ViewModel.MaxVolume"
-           Discrete="true"
-           @bind-Value="@ViewModel.CurrentVolume"
-           Disabled="@ViewModel.IsMuted">
-</MatSlider>
-
-<MatCheckbox @bind-Checked="@ViewModel.IsVolumeLimitEnabled">
-</MatCheckbox>
-
-<MatSlider ValueMin="@ViewModel.MinVolume"
-           ValueMax="@ViewModel.MaxVolume"
-           Discrete="true"
-           @bind-Value="@ViewModel.LimitVolume"
-           >
-</MatSlider>
 @code {
-
 
   protected override void OnInitialized()
   {
@@ -32,7 +33,7 @@
   }
 
 
-  private void OnAudioChanged(object sender, EventArgs e) => this.InvokeAsync(() => this.StateHasChanged());
+  private void OnAudioChanged(object? sender, EventArgs e) => this.InvokeAsync(() => this.StateHasChanged());
 
   public void Dispose() => Dispose(true);
 

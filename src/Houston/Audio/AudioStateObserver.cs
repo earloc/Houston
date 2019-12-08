@@ -38,8 +38,6 @@ namespace Houston.Audio
             NotifyWhenIsMutedChanged();
         }
 
-
-
         private void NotifyWhenVolumeChanged()
         {
             var currentVolume = _Master.Current;
@@ -59,6 +57,7 @@ namespace Houston.Audio
             if (isMuted != _LastKnownIsMuted)
             {
                 var args = new ValueChangedEventArgs<bool>(_LastKnownIsMuted, isMuted);
+                _LastKnownIsMuted = isMuted;
                 IsMutedChanged?.Invoke(this, args);
             }
         }

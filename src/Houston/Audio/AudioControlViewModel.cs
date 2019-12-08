@@ -30,9 +30,11 @@ namespace Houston.Audio
             set {
                 _CurrentVolume = value;
                 _Volume.Current = Convert.ToInt32(value);
-                AudioChanged?.Invoke(this, EventArgs.Empty);
+                OnAudioChanged();
             }
         }
+
+        private void OnAudioChanged() => AudioChanged?.Invoke(this, EventArgs.Empty);
 
         public decimal LimitVolume {
             get { 
@@ -40,12 +42,16 @@ namespace Houston.Audio
             }
             set { 
                 _Limiter.MaxVolume = Convert.ToInt32(Math.Round(value));
+                OnAudioChanged();
             }
         }
 
         public bool IsVolumeLimitEnabled {
             get => _Limiter.IsEnabled;
-            set => _Limiter.IsEnabled = value;
+            set {
+                _Limiter.IsEnabled = value;
+                OnAudioChanged();
+            }
         }
 
         public bool IsVolumeLimitDisabled => !IsVolumeLimitEnabled;
@@ -60,7 +66,7 @@ namespace Houston.Audio
             get => _Volume.IsMuted;
             set {
                 _Volume.IsMuted = value;
-                AudioChanged?.Invoke(this, EventArgs.Empty);
+                OnAudioChanged();
             }
         }
 
