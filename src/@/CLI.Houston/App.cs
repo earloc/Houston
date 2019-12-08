@@ -25,7 +25,7 @@ namespace CLI.Houston
                 while (run)
                 {
                     await Task.Delay(2000);
-                    _Obrigkeit.EnforceLimit();
+                    _Obrigkeit.Enforce();
                 }
             });
 

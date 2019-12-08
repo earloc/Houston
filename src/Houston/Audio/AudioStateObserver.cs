@@ -22,7 +22,7 @@ namespace Houston.Audio
                 {
                     await Task.Delay(delay);
                     if (limit.IsEnabled)
-                        limit.EnforceLimit();
+                        limit.Enforce();
 
                     NotifyChanges();
                 }

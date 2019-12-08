@@ -14,7 +14,7 @@ namespace Houston.Audio
             _Master = master;
         }
 
-        public void EnforceLimit()
+        public void Enforce()
         {
             if (!IsEnabled)
                 return;
