@@ -21,9 +21,8 @@ namespace Houston.Audio
                 while (!_Run.Token.IsCancellationRequested)
                 {
                     await Task.Delay(delay);
-                    if (limit.IsEnabled)
-                        limit.Enforce();
 
+                    limit.Enforce();
                     NotifyChanges();
                 }
             });
