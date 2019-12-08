@@ -17,9 +17,9 @@ namespace Houston
 
             services.AddSingleton(typeof(IVolumeControl), options.VolumeControlType);
 
-            services.AddScoped<VolumeObserver>();
-            services.AddScoped<VolumeLimiter>();
-
+            services.AddSingleton<AudioStateObserver>();
+            services.AddSingleton<VolumeLimiter>();
+            services.AddSingleton<AudioControlViewModel>();
             return services;
         }
     }

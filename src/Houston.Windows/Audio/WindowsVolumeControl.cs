@@ -13,7 +13,11 @@ namespace Houston.Audio.Windows
 
         public int Current { 
             get => Convert.ToInt32(Math.Round(UnsafeNativeMethods.GetMasterVolume()));
-            set => UnsafeNativeMethods.SetMasterVolume(value);
+            set {
+                if (Current == value)
+                    return;
+                UnsafeNativeMethods.SetMasterVolume(value);
+            }
         }
 
     }

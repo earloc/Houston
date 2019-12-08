@@ -34,7 +34,6 @@ namespace Web.Houston
 
             services.AddHouston(options => options.UseVolumeControl<WindowsVolumeControl>());
 
-            services.AddScoped<IndexViewModel>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

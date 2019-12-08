@@ -1,18 +1,38 @@
 ﻿@page "/"
-@inject IndexViewModel ViewModel
+@implements IDisposable
+@inject AudioControlViewModel ViewModel
 
 <h1>Volumne: @ViewModel.CurrentVolume %</h1>
 
-<MatCheckbox @bind-Checked="ViewModel.IsMuted">
+<MatCheckbox @bind-Checked="@ViewModel.IsMuted">
 </MatCheckbox>
 
-<MatSlider ValueMin="ViewModel.MinVolume" 
-           ValueMax="ViewModel.MaxVolume" 
+<MatSlider ValueMin="@ViewModel.MinVolume" 
+           ValueMax="@ViewModel.MaxVolume" 
            Discrete="true" 
-           @bind-Value="ViewModel.CurrentVolume" 
-           @bind-Value:event="ViewModel.CurrentVolumeChanged"
-           Disabled="ViewModel.IsMuted">
+           @bind-Value="@ViewModel.CurrentVolume" 
+           Disabled="@ViewModel.IsMuted">
 </MatSlider>
 
 @code {
+
+
+    protected override void OnInitialized()
+    {
+      this.ViewModel.AudioChanged += OnAudioChanged;
+    }
+
+
+    private void OnAudioChanged(object sender, EventArgs e) => this.InvokeAsync(() => this.StateHasChanged());
+
+    public void Dispose() => Dispose(true);
+
+    private bool disposed = false;
+    private void Dispose(bool disposing)
+    {
+      if (disposed) return;
+      if (!disposing) return;
+      this.ViewModel.AudioChanged -= OnAudioChanged;
+    }
+
 }

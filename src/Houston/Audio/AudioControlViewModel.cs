@@ -1,25 +1,26 @@
-using Houston.Audio;
-using Microsoft.AspNetCore.Components;
 using System;
-using System.Threading.Tasks;
 
-namespace Web.Houston.Pages
+namespace Houston.Audio
 {
-    public class IndexViewModel : IDisposable
+    public class AudioControlViewModel : IDisposable
     {
         private readonly IVolumeControl _Volume;
-        private readonly VolumeObserver _VolumeDetective;
+        private readonly AudioStateObserver _VolumeDetective;
 
-        public IndexViewModel(IVolumeControl volume, VolumeObserver volumeDetective)
+        public AudioControlViewModel(IVolumeControl volume, AudioStateObserver volumeDetective)
         {
             _Volume = volume;
             _VolumeDetective = volumeDetective;
 
-            _VolumeDetective.VolumeChanged += _VolumeDetective_VolumeChanged;
+            _VolumeDetective.VolumeChanged += OnVolumeChanged;
+            _VolumeDetective.IsMutedChanged += OnIsMutedChanged;
         }
 
-        private void _VolumeDetective_VolumeChanged(object? sender, VolumeChangedEventArgs e) 
+        private void OnVolumeChanged(object? sender, ValueChangedEventArgs<int> e) 
             => CurrentVolume = e.To;
+
+        private void OnIsMutedChanged(object? sender, ValueChangedEventArgs<bool> e)
+            => IsMuted = e.To;
 
         public decimal _CurrentVolume;
         public decimal CurrentVolume
@@ -28,18 +29,21 @@ namespace Web.Houston.Pages
             set {
                 _CurrentVolume = value;
                 _Volume.Current = Convert.ToInt32(value);
-                CurrentVolumeChanged.InvokeAsync(value);
+                AudioChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        public EventCallback<decimal> CurrentVolumeChanged { get; set; }
+        public EventHandler? AudioChanged { get; set; }
 
         public int MinVolume => 0;
         public int MaxVolume => 100;
 
         public bool IsMuted {
             get => _Volume.IsMuted;
-            set => _Volume.IsMuted = value;
+            set {
+                _Volume.IsMuted = value;
+                AudioChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public void Dispose() => Dispose(true);
@@ -51,12 +55,12 @@ namespace Web.Houston.Pages
             {
                 if (disposing)
                 {
-                    _VolumeDetective.VolumeChanged -= _VolumeDetective_VolumeChanged;
+                    _VolumeDetective.VolumeChanged -= OnVolumeChanged;
+                    _VolumeDetective.IsMutedChanged -= OnIsMutedChanged;
                 }
 
                 disposedValue = true;
             }
-
         }
     }
 }
