@@ -1,5 +1,6 @@
 ﻿using System;
 using Houston.Audio;
+using Houston.System;
 #nullable enable
 
 namespace Houston
@@ -12,6 +13,12 @@ namespace Houston
         public HoustonOptionsBuilder UseVolumeControl<T>() where T : IVolumeControl
         {
             Options.VolumeControlType = typeof(T);
+            return this;
+        }
+
+        public HoustonOptionsBuilder UseMachine<T>() where T : IMachine
+        {
+            Options.MachineType = typeof(T);
             return this;
         }
 

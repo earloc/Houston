@@ -1,3 +1,4 @@
+using Houston.System;
 using System;
 
 namespace Houston.Audio
@@ -7,12 +8,14 @@ namespace Houston.Audio
         private readonly IVolumeControl _Volume;
         private readonly AudioStateObserver _VolumeDetective;
         private readonly VolumeLimiter _Limiter;
+        private readonly IMachine _Machine;
 
-        public AudioControlViewModel(IVolumeControl volume, AudioStateObserver volumeDetective, VolumeLimiter limiter)
+        public AudioControlViewModel(IVolumeControl volume, AudioStateObserver volumeDetective, VolumeLimiter limiter, IMachine machine)
         {
             _Volume = volume;
             _VolumeDetective = volumeDetective;
             _Limiter = limiter;
+            _Machine = machine;
             _VolumeDetective.VolumeChanged += OnVolumeChanged;
             _VolumeDetective.IsMutedChanged += OnIsMutedChanged;
         }
@@ -86,5 +89,9 @@ namespace Houston.Audio
                 disposedValue = true;
             }
         }
+
+        public void Shutdown() => _Machine.Shutdown(TimeSpan.FromSeconds(60));
+
+        public void CancelShutdown() => _Machine.CancelShutdown();
     }
 }

@@ -23,6 +23,9 @@
              @bind-Value="@ViewModel.LimitVolume"
              Disabled="@ViewModel.IsVolumeLimitDisabled">
   </MatSlider>
+
+  <MatButton Label="Shutdown" Icon="power_off" OnClick="() => ViewModel.Shutdown()"></MatButton>
+  <MatButton Label="Cancel" Icon="power_on" OnClick="() => ViewModel.CancelShutdown()"></MatButton>
 </span>
 
 @code {
@@ -32,8 +35,21 @@
     this.ViewModel.AudioChanged += OnAudioChanged;
   }
 
+  private void OnAudioChanged(object? sender, EventArgs e) => this.TryStateHasChanged();
 
-  private void OnAudioChanged(object? sender, EventArgs e) => this.InvokeAsync(() => this.StateHasChanged());
+  private void TryStateHasChanged()
+  {
+    this.InvokeAsync(() =>
+    {
+      try
+      {
+        this.StateHasChanged();
+      }
+      catch (ObjectDisposedException)
+      {
+      }
+    });
+  }
 
   public void Dispose() => Dispose(true);
 

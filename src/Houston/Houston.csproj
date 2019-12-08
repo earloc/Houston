@@ -10,8 +10,4 @@
     <PackageReference Include="Microsoft.VisualStudio.Threading" Version="16.4.33" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="OS\" />
-  </ItemGroup>
-
 </Project>

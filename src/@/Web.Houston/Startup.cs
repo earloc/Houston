@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Web.Houston.Pages;
 using Houston;
 using Houston.Audio.Windows;
+using Houston.System.Windows;
 
 namespace Web.Houston
 {
@@ -32,7 +33,10 @@ namespace Web.Houston
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            services.AddHouston(options => options.UseVolumeControl<WindowsVolumeControl>());
+            services.AddHouston(options => options
+                .UseVolumeControl<WindowsVolumeControl>()
+                .UseMachine<WindowsMachine>()
+            );
 
         }
 
