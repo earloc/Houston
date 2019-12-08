@@ -11,7 +11,7 @@ namespace Houston.Audio
         private int? _LastKnownVolume = 0;
         private bool? _LastKnownIsMuted;
 
-        public AudioStateObserver(IVolumeControl master, HoustonOptions options)
+        public AudioStateObserver(IVolumeControl master, HoustonOptions options, VolumeLimiter limit)
         {
             _Master = master;
             var delay = options.ObserverDelay;
@@ -21,6 +21,9 @@ namespace Houston.Audio
                 while (!_Run.Token.IsCancellationRequested)
                 {
                     await Task.Delay(delay);
+                    if (limit.IsEnabled)
+                        limit.EnforceLimit();
+
                     NotifyChanges();
                 }
             });

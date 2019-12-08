@@ -6,12 +6,13 @@ namespace Houston.Audio
     {
         private readonly IVolumeControl _Volume;
         private readonly AudioStateObserver _VolumeDetective;
+        private readonly VolumeLimiter _Limiter;
 
-        public AudioControlViewModel(IVolumeControl volume, AudioStateObserver volumeDetective)
+        public AudioControlViewModel(IVolumeControl volume, AudioStateObserver volumeDetective, VolumeLimiter limiter)
         {
             _Volume = volume;
             _VolumeDetective = volumeDetective;
-
+            _Limiter = limiter;
             _VolumeDetective.VolumeChanged += OnVolumeChanged;
             _VolumeDetective.IsMutedChanged += OnIsMutedChanged;
         }
@@ -32,6 +33,23 @@ namespace Houston.Audio
                 AudioChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
+        public decimal LimitVolume {
+            get { 
+                return _Limiter.MaxVolume; 
+            }
+            set { 
+                _Limiter.MaxVolume = Convert.ToInt32(Math.Round(value));
+            }
+        }
+
+        public bool IsVolumeLimitEnabled {
+            get => _Limiter.IsEnabled;
+            set => _Limiter.IsEnabled = value;
+        }
+
+        public bool IsVolumeLimitDisabled => !IsVolumeLimitEnabled;
+
 
         public EventHandler? AudioChanged { get; set; }
 

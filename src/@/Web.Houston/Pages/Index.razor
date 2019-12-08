@@ -7,32 +7,41 @@
 <MatCheckbox @bind-Checked="@ViewModel.IsMuted">
 </MatCheckbox>
 
-<MatSlider ValueMin="@ViewModel.MinVolume" 
-           ValueMax="@ViewModel.MaxVolume" 
-           Discrete="true" 
-           @bind-Value="@ViewModel.CurrentVolume" 
+<MatSlider ValueMin="@ViewModel.MinVolume"
+           ValueMax="@ViewModel.MaxVolume"
+           Discrete="true"
+           @bind-Value="@ViewModel.CurrentVolume"
            Disabled="@ViewModel.IsMuted">
 </MatSlider>
 
+<MatCheckbox @bind-Checked="@ViewModel.IsVolumeLimitEnabled">
+</MatCheckbox>
+
+<MatSlider ValueMin="@ViewModel.MinVolume"
+           ValueMax="@ViewModel.MaxVolume"
+           Discrete="true"
+           @bind-Value="@ViewModel.LimitVolume"
+           >
+</MatSlider>
 @code {
 
 
-    protected override void OnInitialized()
-    {
-      this.ViewModel.AudioChanged += OnAudioChanged;
-    }
+  protected override void OnInitialized()
+  {
+    this.ViewModel.AudioChanged += OnAudioChanged;
+  }
 
 
-    private void OnAudioChanged(object sender, EventArgs e) => this.InvokeAsync(() => this.StateHasChanged());
+  private void OnAudioChanged(object sender, EventArgs e) => this.InvokeAsync(() => this.StateHasChanged());
 
-    public void Dispose() => Dispose(true);
+  public void Dispose() => Dispose(true);
 
-    private bool disposed = false;
-    private void Dispose(bool disposing)
-    {
-      if (disposed) return;
-      if (!disposing) return;
-      this.ViewModel.AudioChanged -= OnAudioChanged;
-    }
+  private bool disposed = false;
+  private void Dispose(bool disposing)
+  {
+    if (disposed) return;
+    if (!disposing) return;
+    ViewModel.AudioChanged -= OnAudioChanged;
+  }
 
 }
