@@ -26,7 +26,7 @@ namespace Houston.Audio
         private void OnIsMutedChanged(object? sender, ValueChangedEventArgs<bool> e)
             => IsMuted = e.To;
 
-        public decimal _CurrentVolume;
+        private decimal _CurrentVolume;
         public decimal CurrentVolume
         {
             get => _CurrentVolume;
@@ -73,7 +73,11 @@ namespace Houston.Audio
             }
         }
 
-        public void Dispose() => Dispose(true);
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
         private bool disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)

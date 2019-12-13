@@ -1,5 +1,6 @@
 ﻿using System;
 using Houston.Audio;
+using Houston.Speech;
 using Houston.System;
 #nullable enable
 
@@ -19,6 +20,12 @@ namespace Houston
         public HoustonOptionsBuilder UseMachine<T>() where T : IMachine
         {
             Options.MachineType = typeof(T);
+            return this;
+        }
+
+        public HoustonOptionsBuilder UseVoice<T>() where T : IVoice
+        {
+            Options.VoiceType = typeof(T);
             return this;
         }
 

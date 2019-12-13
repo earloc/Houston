@@ -297,7 +297,8 @@ namespace Houston.Audio.Windows
 
                         // NOTE: we could also use the app name from ctl.GetDisplayName()
                         int cpid;
-                        ctl.GetProcessId(out cpid);
+                        var hr = ctl.GetProcessId(out cpid);
+                        Marshal.ThrowExceptionForHR(hr);
 
                         if (cpid == pid)
                         {
