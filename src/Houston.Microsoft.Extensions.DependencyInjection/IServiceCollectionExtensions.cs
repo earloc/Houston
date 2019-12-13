@@ -1,5 +1,6 @@
 using System;
 using Houston.Audio;
+using Houston.Speech;
 using Houston.System;
 using Microsoft.Extensions.DependencyInjection;
 #nullable enable
@@ -17,12 +18,12 @@ namespace Houston
             services.AddSingleton(options);
 
             services.AddSingleton(typeof(IVolumeControl), options.VolumeControlType);
+            services.AddSingleton(typeof(IMachine), options.MachineType);
+            services.AddSingleton(typeof(IVoice), options.VoiceType);
 
             services.AddSingleton<AudioStateObserver>();
             services.AddSingleton<VolumeLimiter>();
             services.AddSingleton<AudioControlViewModel>();
-
-            services.AddSingleton(typeof(IMachine), options.MachineType);
 
             return services;
         }

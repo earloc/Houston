@@ -14,6 +14,7 @@ using Web.Houston.Pages;
 using Houston;
 using Houston.Audio.Windows;
 using Houston.System.Windows;
+using Houston.Windows.Speech;
 
 namespace Web.Houston
 {
@@ -36,6 +37,7 @@ namespace Web.Houston
             services.AddHouston(options => options
                 .UseVolumeControl<WindowsVolumeControl>()
                 .UseMachine<WindowsMachine>()
+                .UseVoice<PowershellSynthesizedVoice>()
             );
         }
 

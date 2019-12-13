@@ -1,5 +1,7 @@
+using Houston.Speech;
 using Houston.System;
 using System;
+using System.Threading.Tasks;
 
 namespace Houston.Audio
 {
@@ -9,13 +11,15 @@ namespace Houston.Audio
         private readonly AudioStateObserver _VolumeDetective;
         private readonly VolumeLimiter _Limiter;
         private readonly IMachine _Machine;
+        private readonly IVoice _Voice;
 
-        public AudioControlViewModel(IVolumeControl volume, AudioStateObserver volumeDetective, VolumeLimiter limiter, IMachine machine)
+        public AudioControlViewModel(IVolumeControl volume, AudioStateObserver volumeDetective, VolumeLimiter limiter, IMachine machine, IVoice voice)
         {
             _Volume = volume;
             _VolumeDetective = volumeDetective;
             _Limiter = limiter;
             _Machine = machine;
+            this._Voice = voice;
             _VolumeDetective.VolumeChanged += OnVolumeChanged;
             _VolumeDetective.IsMutedChanged += OnIsMutedChanged;
         }
@@ -97,5 +101,7 @@ namespace Houston.Audio
         public void Shutdown() => _Machine.Shutdown(TimeSpan.FromSeconds(60));
 
         public void CancelShutdown() => _Machine.CancelShutdown();
+
+        public Task SayAsync(string message) => _Voice.SayAsync(message);
     }
 }

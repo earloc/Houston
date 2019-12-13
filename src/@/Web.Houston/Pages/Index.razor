@@ -26,39 +26,47 @@
 
   <MatButton Label="Shutdown" Icon="power_off" OnClick="() => ViewModel.Shutdown()"></MatButton>
   <MatButton Label="Cancel" Icon="power_on" OnClick="() => ViewModel.CancelShutdown()"></MatButton>
+
+  <MatTextField @bind-Value="@_CustomText"></MatTextField>
+  <MatButton OnClick="Talk">Talk</MatButton>
 </span>
 
 @code {
-
-  protected override void OnInitialized()
-  {
-    this.ViewModel.AudioChanged += OnAudioChanged;
-  }
-
-  private void OnAudioChanged(object? sender, EventArgs e) => this.TryStateHasChanged();
-
-  private void TryStateHasChanged()
-  {
-    this.InvokeAsync(() =>
+    private string _CustomText = $"{System.Environment.MachineName}, was geht ab?";
+    protected override void OnInitialized()
     {
-      try
-      {
-        this.StateHasChanged();
-      }
-      catch (ObjectDisposedException)
-      {
-      }
-    });
-  }
+      this.ViewModel.AudioChanged += OnAudioChanged;
+    }
 
-  public void Dispose() => Dispose(true);
+    private void OnAudioChanged(object? sender, EventArgs e) => this.TryStateHasChanged();
 
-  private bool disposed = false;
-  private void Dispose(bool disposing)
-  {
-    if (disposed) return;
-    if (!disposing) return;
-    ViewModel.AudioChanged -= OnAudioChanged;
-  }
+    private async void Talk()
+    {
+      await ViewModel.SayAsync(_CustomText);
+    }
+
+    private void TryStateHasChanged()
+    {
+      this.InvokeAsync(() =>
+      {
+        try
+        {
+          this.StateHasChanged();
+        }
+        catch (ObjectDisposedException)
+        {
+        }
+      });
+    }
+
+    public void Dispose() => Dispose(true);
+
+    private bool disposed = false;
+    private void Dispose(bool disposing)
+    {
+      if (disposed) return;
+      if (!disposing) return;
+      ViewModel.AudioChanged -= OnAudioChanged;
+    }
 
 }
