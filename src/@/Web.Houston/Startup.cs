@@ -1,20 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using EmbeddedBlazorContent;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Web.Houston.Pages;
 using Houston;
 using Houston.Audio.Windows;
 using Houston.System.Windows;
 using Houston.Windows.Speech;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Web.Houston
 {
@@ -22,22 +15,22 @@ namespace Web.Houston
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public readonly IConfiguration _Configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public static void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            services.AddHouston(options => options
-                .UseVolumeControl<WindowsVolumeControl>()
-                .UseMachine<WindowsMachine>()
-                .UseVoice<PowershellSynthesizedVoice>()
+            _ = services.AddHouston(options => options
+                  .UseVolumeControl<WindowsVolumeControl>()
+                  .UseMachine<WindowsMachine>()
+                  .UseVoice<PowershellSynthesizedVoice>(_Configuration.GetSection("VoicePresetPath").ToString())
             );
         }
 

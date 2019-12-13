@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Houston.Audio;
 using Houston.Speech;
 using Houston.System;
@@ -20,7 +21,7 @@ namespace Houston
             services.AddSingleton(typeof(IVolumeControl), options.VolumeControlType);
             services.AddSingleton(typeof(IMachine), options.MachineType);
             services.AddSingleton(typeof(IVoice), options.VoiceType);
-
+            services.AddSingleton<IPresetSource, FilePresetSource>(_ => new FilePresetSource(new FileInfo(options.VoicePresetSource)));
             services.AddSingleton<AudioStateObserver>();
             services.AddSingleton<VolumeLimiter>();
             services.AddSingleton<AudioControlViewModel>();

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Houston.Audio;
 using Houston.Speech;
 using Houston.System;
@@ -15,5 +16,6 @@ namespace Houston
         public Type VoiceType { get; internal set; } = typeof(ConsoleVoice);
 
         public TimeSpan ObserverDelay { get; internal set; } = TimeSpan.FromMilliseconds(50);
+        public string VoicePresetSource { get; internal set; } = "./VoicePresets.txt";
     }
 }

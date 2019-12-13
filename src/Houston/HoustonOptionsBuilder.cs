@@ -23,9 +23,9 @@ namespace Houston
             return this;
         }
 
-        public HoustonOptionsBuilder UseVoice<T>() where T : IVoice
+        public HoustonOptionsBuilder UseVoice<T>(string presetPath) where T : IVoice
         {
-            Options.VoiceType = typeof(T);
+            Options.VoicePresetSource = presetPath;
             return this;
         }
 
