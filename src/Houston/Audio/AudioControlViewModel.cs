@@ -1,6 +1,8 @@
+using Houston.Extensions;
 using Houston.Speech;
 using Houston.System;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Houston.Audio
@@ -103,5 +105,11 @@ namespace Houston.Audio
         public void CancelShutdown() => _Machine.CancelShutdown();
 
         public Task SayAsync(string message) => _Voice.SayAsync(message);
+
+
+        public IEnumerable<string> SayPresets { get; } = new[]
+        {
+            "{HOST}, mache jetzt bitte den PC aus.".Expand()
+        };
     }
 }

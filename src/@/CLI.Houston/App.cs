@@ -1,19 +1,22 @@
 using System;
 using System.Threading.Tasks;
 using Houston.Audio;
+using Houston.Speech;
 
 namespace CLI.Houston
 {
     public class App
     {
-        public App(IVolumeControl master, VolumeLimiter obrigkeit)
+        public App(IVolumeControl master, VolumeLimiter obrigkeit, IVoice voice)
         {
             _Master = master;
             _Obrigkeit = obrigkeit;
+            _Voice = voice;
         }
 
         private readonly IVolumeControl _Master;
         private readonly VolumeLimiter _Obrigkeit;
+        private readonly IVoice _Voice;
 
         public async Task RunAsync()
         {
@@ -24,7 +27,7 @@ namespace CLI.Houston
             {
                 while (run)
                 {
-                    await Task.Delay(2000);
+                    await Task.Delay(2000).ConfigureAwait(false);
                     _Obrigkeit.Enforce();
                 }
             });
@@ -75,7 +78,6 @@ namespace CLI.Houston
                 {
                     _Obrigkeit.MaxVolume -= 5;
                 }
-
             }
 
             await limitTask;

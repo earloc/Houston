@@ -27,46 +27,54 @@
   <MatButton Label="Shutdown" Icon="power_off" OnClick="() => ViewModel.Shutdown()"></MatButton>
   <MatButton Label="Cancel" Icon="power_on" OnClick="() => ViewModel.CancelShutdown()"></MatButton>
 
-  <MatTextField @bind-Value="@_CustomText"></MatTextField>
-  <MatButton OnClick="Talk">Talk</MatButton>
+  <span>
+    <MatTextField @bind-Value="@_CustomText"></MatTextField>
+    <MatButton OnClick="Talk">Talk</MatButton>
+  </span>
+
+  @foreach (var text in ViewModel.SayPresets)
+  {
+    <MatButton Label="@text" Icon="record_voice_over" OnClick="() => ViewModel.SayAsync(text)"></MatButton>
+  }
+
 </span>
 
 @code {
-    private string _CustomText = $"{System.Environment.MachineName}, was geht ab?";
-    protected override void OnInitialized()
-    {
-      this.ViewModel.AudioChanged += OnAudioChanged;
-    }
+  private string _CustomText = $"{System.Environment.MachineName}, was geht ab?";
+  protected override void OnInitialized()
+  {
+    this.ViewModel.AudioChanged += OnAudioChanged;
+  }
 
-    private void OnAudioChanged(object? sender, EventArgs e) => this.TryStateHasChanged();
+  private void OnAudioChanged(object? sender, EventArgs e) => this.TryStateHasChanged();
 
-    private async void Talk()
-    {
-      await ViewModel.SayAsync(_CustomText);
-    }
+  private async void Talk()
+  {
+    await ViewModel.SayAsync(_CustomText);
+  }
 
-    private void TryStateHasChanged()
+  private void TryStateHasChanged()
+  {
+    this.InvokeAsync(() =>
     {
-      this.InvokeAsync(() =>
+      try
       {
-        try
-        {
-          this.StateHasChanged();
-        }
-        catch (ObjectDisposedException)
-        {
-        }
-      });
-    }
+        this.StateHasChanged();
+      }
+      catch (ObjectDisposedException)
+      {
+      }
+    });
+  }
 
-    public void Dispose() => Dispose(true);
+  public void Dispose() => Dispose(true);
 
-    private bool disposed = false;
-    private void Dispose(bool disposing)
-    {
-      if (disposed) return;
-      if (!disposing) return;
-      ViewModel.AudioChanged -= OnAudioChanged;
-    }
+  private bool disposed = false;
+  private void Dispose(bool disposing)
+  {
+    if (disposed) return;
+    if (!disposing) return;
+    ViewModel.AudioChanged -= OnAudioChanged;
+  }
 
 }
