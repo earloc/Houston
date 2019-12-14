@@ -13,15 +13,13 @@ namespace Houston.Audio
         private readonly AudioStateObserver _VolumeDetective;
         private readonly VolumeLimiter _Limiter;
         private readonly IMachine _Machine;
-        private readonly IVoice _Voice;
 
-        public AudioControlViewModel(IVolumeControl volume, AudioStateObserver volumeDetective, VolumeLimiter limiter, IMachine machine, IVoice voice)
+        public AudioControlViewModel(IVolumeControl volume, AudioStateObserver volumeDetective, VolumeLimiter limiter, IMachine machine)
         {
             _Volume = volume;
             _VolumeDetective = volumeDetective;
             _Limiter = limiter;
             _Machine = machine;
-            this._Voice = voice;
             _VolumeDetective.VolumeChanged += OnVolumeChanged;
             _VolumeDetective.IsMutedChanged += OnIsMutedChanged;
         }
@@ -104,12 +102,7 @@ namespace Houston.Audio
 
         public void CancelShutdown() => _Machine.CancelShutdown();
 
-        public Task SayAsync(string message) => _Voice.SayAsync(message);
+     
 
-
-        public IEnumerable<string> SayPresets { get; } = new[]
-        {
-            "{HOST}, mache jetzt bitte den PC aus.".Expand()
-        };
     }
 }

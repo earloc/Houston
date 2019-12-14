@@ -20,7 +20,8 @@ namespace Houston.Audio
             {
                 while (!_Run.Token.IsCancellationRequested)
                 {
-                    await Task.Delay(delay);
+                    await Task.Delay(delay)
+                        .ConfigureAwait(false);
 
                     limit.Enforce();
                     NotifyChanges();
@@ -77,7 +78,8 @@ namespace Houston.Audio
                     _Run.Cancel();
                     _Run.Dispose();
 
-                    await (_Detective ?? Task.CompletedTask);
+                    await (_Detective ?? Task.CompletedTask)
+                        .ConfigureAwait(false);
                 }
 
                 disposedValue = true;

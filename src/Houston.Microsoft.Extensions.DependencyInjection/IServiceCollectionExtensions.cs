@@ -24,7 +24,9 @@ namespace Houston
             services.AddSingleton<IPresetSource, FilePresetSource>(_ => new FilePresetSource(new FileInfo(options.VoicePresetSource)));
             services.AddSingleton<AudioStateObserver>();
             services.AddSingleton<VolumeLimiter>();
-            services.AddSingleton<AudioControlViewModel>();
+
+            services.AddScoped<AudioControlViewModel>();
+            services.AddScoped<VoiceViewModel>();
 
             return services;
         }

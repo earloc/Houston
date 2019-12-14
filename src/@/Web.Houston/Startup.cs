@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
 
 namespace Web.Houston
 {
@@ -18,7 +19,7 @@ namespace Web.Houston
             _Configuration = configuration;
         }
 
-        public readonly IConfiguration _Configuration;
+        private readonly IConfiguration _Configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -26,11 +27,10 @@ namespace Web.Houston
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-
             _ = services.AddHouston(options => options
                   .UseVolumeControl<WindowsVolumeControl>()
                   .UseMachine<WindowsMachine>()
-                  .UseVoice<PowershellSynthesizedVoice>(_Configuration.GetSection("VoicePresetPath").ToString())
+                  .UseVoice<PowershellSynthesizedVoice>(_Configuration.GetSection("VoicePresetPath").Value.ToString() ?? "VoicePresets.txt")
             );
         }
 

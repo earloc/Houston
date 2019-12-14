@@ -26,6 +26,7 @@ namespace Houston
         public HoustonOptionsBuilder UseVoice<T>(string presetPath) where T : IVoice
         {
             Options.VoicePresetSource = presetPath;
+            Options.VoiceType = typeof(T);
             return this;
         }
 

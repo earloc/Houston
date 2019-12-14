@@ -1,58 +1,55 @@
 ﻿@page "/speech"
-@implements IDisposable
-@inject AudioControlViewModel ViewModel
+@inject VoiceViewModel ViewModel
+@inject IPresetSource PresetSource
+@implements IDisposable;
 
-  <MatButton Label="Shutdown" Icon="power_off" OnClick="() => ViewModel.Shutdown()"></MatButton>
-  <MatButton Label="Cancel" Icon="power_on" OnClick="() => ViewModel.CancelShutdown()"></MatButton>
+<span>
+  <MatTextField @bind-Value="@_CustomText"></MatTextField>
+  <MatButton OnClick="async () => await ViewModel.SayAsync(_CustomText)">Talk</MatButton>
+</span>
 
-  <span>
-    <MatTextField @bind-Value="@_CustomText"></MatTextField>
-    <MatButton OnClick="Talk">Talk</MatButton>
-  </span>
+<span>
 
-  @foreach (var text in ViewModel.SayPresets)
-  {
-    <MatButton Label="@text" Icon="record_voice_over" OnClick="() => ViewModel.SayAsync(text)"></MatButton>
-  }
+  <MatList>
+    @foreach (var text in presets)
+    {
+      <MatButton Label="@text" Icon="record_voice_over" OnClick="async () => await ViewModel.SayAsync(text)"></MatButton>
+    }
+  </MatList>
+
+
 
 </span>
 
 @code {
-  private string _CustomText = $"{System.Environment.MachineName}, was geht ab?";
-  protected override void OnInitialized()
-  {
-    this.ViewModel.AudioChanged += OnAudioChanged;
-  }
+    private IEnumerable<string> presets = Enumerable.Empty<string>();
 
-  private void OnAudioChanged(object? sender, EventArgs e) => this.TryStateHasChanged();
+    private string _CustomText = $"{System.Environment.MachineName}, was geht ab?";
 
-  private async void Talk()
-  {
-    await ViewModel.SayAsync(_CustomText);
-  }
-
-  private void TryStateHasChanged()
-  {
-    this.InvokeAsync(() =>
+    protected override async Task OnInitializedAsync()
     {
-      try
-      {
-        this.StateHasChanged();
-      }
-      catch (ObjectDisposedException)
-      {
-      }
-    });
-  }
+      presets = await PresetSource.GetPresetsAsync();
+      PresetSource.Changed += OnPresetSourceChanged;
+    }
 
-  public void Dispose() => Dispose(true);
+    private async void OnPresetSourceChanged(object? sender, EventArgs e)
+    {
+      presets = await PresetSource.GetPresetsAsync();
+        this.InvokeAsync(() => this.StateHasChanged());
+    }
 
-  private bool disposed = false;
-  private void Dispose(bool disposing)
-  {
-    if (disposed) return;
-    if (!disposing) return;
-    ViewModel.AudioChanged -= OnAudioChanged;
-  }
+    public void Dispose() => Dispose(true);
+      private bool disposedValue = false;
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                PresetSource.Changed -= OnPresetSourceChanged;
+                }
+                disposedValue = true;
+            }
+        }
 }
