@@ -68,8 +68,8 @@ namespace Houston.Audio
 
         public EventHandler? AudioChanged { get; set; }
 
-        public int MinVolume => 0;
-        public int MaxVolume => 100;
+        public int MinVolume { get; } = 0;
+        public int MaxVolume { get; } = 100;
 
         public bool IsMuted
         {
