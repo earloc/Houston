@@ -6,12 +6,12 @@ namespace Houston.System
     {
         public void CancelShutdown()
         {
-            Console.WriteLine("canelling shutdown");
+            Console.WriteLine(R.InMemoryMachine_CancelShutdown);
         }
 
-        public void Shutdown(TimeSpan @in)
+        public void Shutdown(TimeSpan shutdownIn)
         {
-            Console.WriteLine($"shutting down in {@in}");
+            Console.WriteLine($"shutting down in {shutdownIn}");
         }
     }
 }

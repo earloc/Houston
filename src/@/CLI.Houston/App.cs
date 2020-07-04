@@ -35,9 +35,9 @@ namespace CLI.Houston
             Console.Clear();
             while (run)
             {
-                await Task.Delay(50);
+                await Task.Delay(50).ConfigureAwait(false);
                 Console.SetCursorPosition(0, 0);
-                System.Console.WriteLine("                                 ");
+                System.Console.WriteLine();
                 Console.SetCursorPosition(0, 0);
                 var mutedState = _Master.IsMuted ? "Off" : "On ";
                 var limiterState = _Obrigkeit.IsEnabled ? $"({_Obrigkeit.MaxVolume})" : "";
@@ -80,7 +80,7 @@ namespace CLI.Houston
                 }
             }
 
-            await limitTask;
+            await limitTask.ConfigureAwait(false);
 
         }
     }

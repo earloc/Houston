@@ -13,6 +13,11 @@ namespace Houston.Audio
 
         public AudioStateObserver(IVolumeControl master, HoustonOptions options, VolumeLimiter limit)
         {
+            if (options is null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
             _Master = master;
             var delay = options.ObserverDelay;
 

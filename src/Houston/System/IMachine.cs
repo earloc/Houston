@@ -4,7 +4,7 @@ namespace Houston.System
 {
     public interface IMachine
     {
-        void Shutdown(TimeSpan @in);
+        void Shutdown(TimeSpan shutdownIn);
         void CancelShutdown();
     }
 }

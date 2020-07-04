@@ -49,7 +49,8 @@ namespace Houston.Audio.Windows
                     return -1;
 
                 float volumeLevel;
-                masterVol.GetMasterVolumeLevelScalar(out volumeLevel);
+                var hresult = masterVol.GetMasterVolumeLevelScalar(out volumeLevel);
+                Marshal.ThrowExceptionForHR(hresult);
                 return volumeLevel * 100;
             }
             finally
@@ -74,7 +75,8 @@ namespace Houston.Audio.Windows
                     return false;
 
                 bool isMuted;
-                masterVol.GetMute(out isMuted);
+                var hresult = masterVol.GetMute(out isMuted);
+                Marshal.ThrowExceptionForHR(hresult);
                 return isMuted;
             }
             finally
@@ -97,7 +99,8 @@ namespace Houston.Audio.Windows
                 if (masterVol == null)
                     return;
 
-                masterVol.SetMasterVolumeLevelScalar(newLevel / 100, Guid.Empty);
+                var hresult = masterVol.SetMasterVolumeLevelScalar(newLevel / 100, Guid.Empty);
+                Marshal.ThrowExceptionForHR(hresult);
             }
             finally
             {
@@ -125,14 +128,16 @@ namespace Houston.Audio.Windows
 
                 // Get the level
                 float volumeLevel;
-                masterVol.GetMasterVolumeLevelScalar(out volumeLevel);
+                var hresult = masterVol.GetMasterVolumeLevelScalar(out volumeLevel);
+                Marshal.ThrowExceptionForHR(hresult);
 
                 // Calculate the new level
                 var newLevel = volumeLevel + stepAmountScaled;
                 newLevel = Math.Min(1, newLevel);
                 newLevel = Math.Max(0, newLevel);
 
-                masterVol.SetMasterVolumeLevelScalar(newLevel, Guid.Empty);
+                hresult = masterVol.SetMasterVolumeLevelScalar(newLevel, Guid.Empty);
+                Marshal.ThrowExceptionForHR(hresult);
 
                 // Return the new volume level that was set
                 return newLevel * 100;
@@ -157,7 +162,8 @@ namespace Houston.Audio.Windows
                 if (masterVol == null)
                     return;
 
-                masterVol.SetMute(isMuted, Guid.Empty);
+                var hresult = masterVol.SetMute(isMuted, Guid.Empty);
+                Marshal.ThrowExceptionForHR(hresult);
             }
             finally
             {
@@ -180,9 +186,10 @@ namespace Houston.Audio.Windows
                     return false;
 
                 bool isMuted;
-                masterVol.GetMute(out isMuted);
-                masterVol.SetMute(!isMuted, Guid.Empty);
-
+                var hresult = masterVol.GetMute(out isMuted);
+                Marshal.ThrowExceptionForHR(hresult);
+                hresult = masterVol.SetMute(!isMuted, Guid.Empty);
+                Marshal.ThrowExceptionForHR(hresult);
                 return !isMuted;
             }
             finally
@@ -199,11 +206,13 @@ namespace Houston.Audio.Windows
             try
             {
                 deviceEnumerator = (IMMDeviceEnumerator)(new MMDeviceEnumerator());
-                deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia, out speakers);
+                var hresult = deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia, out speakers);
+                Marshal.ThrowExceptionForHR(hresult);
 
                 var IID_IAudioEndpointVolume = typeof(IAudioEndpointVolume).GUID;
                 object o;
-                speakers.Activate(ref IID_IAudioEndpointVolume, 0, IntPtr.Zero, out o);
+                hresult = speakers.Activate(ref IID_IAudioEndpointVolume, 0, IntPtr.Zero, out o);
+                Marshal.ThrowExceptionForHR(hresult);
                 var masterVol = (IAudioEndpointVolume)o;
 
                 return masterVol;
@@ -226,7 +235,8 @@ namespace Houston.Audio.Windows
                 return null;
 
             float level;
-            volume.GetMasterVolume(out level);
+            var hresult = volume.GetMasterVolume(out level);
+            Marshal.ThrowExceptionForHR(hresult);
             Marshal.ReleaseComObject(volume);
             return level * 100;
         }
@@ -238,7 +248,8 @@ namespace Houston.Audio.Windows
                 return null;
 
             bool mute;
-            volume.GetMute(out mute);
+            var hresult = volume.GetMute(out mute);
+            Marshal.ThrowExceptionForHR(hresult);
             Marshal.ReleaseComObject(volume);
             return mute;
         }
@@ -250,7 +261,8 @@ namespace Houston.Audio.Windows
                 return;
 
             var guid = Guid.Empty;
-            volume.SetMasterVolume(level / 100, ref guid);
+            var result = volume.SetMasterVolume(level / 100, ref guid);
+            Marshal.ThrowExceptionForHR(result);
             Marshal.ReleaseComObject(volume);
         }
 
@@ -261,7 +273,8 @@ namespace Houston.Audio.Windows
                 return;
 
             var guid = Guid.Empty;
-            volume.SetMute(mute, ref guid);
+            var hresult = volume.SetMute(mute, ref guid);
+            Marshal.ThrowExceptionForHR(hresult);
             Marshal.ReleaseComObject(volume);
         }
 
@@ -275,18 +288,22 @@ namespace Houston.Audio.Windows
             {
                 // get the speakers (1st render + multimedia) device
                 deviceEnumerator = (IMMDeviceEnumerator)(new MMDeviceEnumerator());
-                deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia, out speakers);
+                var hresult = deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia, out speakers);
+                Marshal.ThrowExceptionForHR(hresult);
 
                 // activate the session manager. we need the enumerator
                 var IID_IAudioSessionManager2 = typeof(IAudioSessionManager2).GUID;
                 object o;
-                speakers.Activate(ref IID_IAudioSessionManager2, 0, IntPtr.Zero, out o);
+                hresult = speakers.Activate(ref IID_IAudioSessionManager2, 0, IntPtr.Zero, out o);
+                Marshal.ThrowExceptionForHR(hresult);
                 mgr = (IAudioSessionManager2)o;
 
                 // enumerate sessions for on this device
-                mgr.GetSessionEnumerator(out sessionEnumerator);
+                hresult = mgr.GetSessionEnumerator(out sessionEnumerator);
+                Marshal.ThrowExceptionForHR(hresult);
                 int count;
-                sessionEnumerator.GetCount(out count);
+                hresult = sessionEnumerator.GetCount(out count);
+                Marshal.ThrowExceptionForHR(hresult);
 
                 // search for an audio session with the required process-id
                 ISimpleAudioVolume volumeControl = null;
@@ -295,7 +312,8 @@ namespace Houston.Audio.Windows
                     IAudioSessionControl2 ctl = null;
                     try
                     {
-                        sessionEnumerator.GetSession(i, out ctl);
+                        hresult = sessionEnumerator.GetSession(i, out ctl);
+                        Marshal.ThrowExceptionForHR(hresult);
 
                         // NOTE: we could also use the app name from ctl.GetDisplayName()
                         int cpid;
@@ -589,12 +607,12 @@ namespace Houston.Audio.Windows
         /// <summary>
         /// Gets information about the current step in the volume range.
         /// </summary>
-        /// <param name="step">The current zero-based step index.</param>
+        /// <param name="stapIndex">The current zero-based step index.</param>
         /// <param name="stepCount">The total number of steps in the volume range.</param>
         /// <returns>An HRESULT code indicating whether the operation passed of failed.</returns>
         [PreserveSig]
         int GetVolumeStepInfo(
-            [Out][MarshalAs(UnmanagedType.U4)] out UInt32 step,
+            [Out][MarshalAs(UnmanagedType.U4)] out UInt32 stapIndex,
             [Out][MarshalAs(UnmanagedType.U4)] out UInt32 stepCount);
 
         /// <summary>

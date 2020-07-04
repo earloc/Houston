@@ -33,7 +33,7 @@ namespace Houston.Speech
             });
         }
 
-        public event EventHandler Changed;
+        public event EventHandler? Changed;
 
         public Task<IEnumerable<string>> GetPresetsAsync()
         {
@@ -70,7 +70,11 @@ namespace Houston.Speech
             }
         }
 
-        public void Dispose() => Dispose(true);
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
         #endregion
     }
 }

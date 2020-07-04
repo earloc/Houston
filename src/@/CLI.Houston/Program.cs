@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CLI.Houston
 {
-    class Program
+    static class Program
     {
         static Task Main()
         {
