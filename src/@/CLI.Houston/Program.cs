@@ -7,7 +7,7 @@ namespace CLI.Houston
 {
     class Program
     {
-        static Task Main(string[] args)
+        static Task Main()
         {
             var services = new ServiceCollection();
             Configure(services);

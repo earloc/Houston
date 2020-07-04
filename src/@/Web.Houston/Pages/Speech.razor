@@ -35,7 +35,7 @@
     private async void OnPresetSourceChanged(object? sender, EventArgs e)
     {
       presets = await PresetSource.GetPresetsAsync();
-        this.InvokeAsync(() => this.StateHasChanged());
+        await this.InvokeAsync(() => this.StateHasChanged());
     }
 
     public void Dispose() => Dispose(true);

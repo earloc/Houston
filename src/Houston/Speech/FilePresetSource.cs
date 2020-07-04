@@ -48,7 +48,7 @@ namespace Houston.Speech
                                .AsEnumerable()
                    );
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Task.FromResult(Enumerable.Empty<string>());
             }

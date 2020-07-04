@@ -13,7 +13,7 @@ namespace Houston.Audio
         public AudioControlViewModel(IVolumeControl volume, AudioStateObserver volumeDetective, VolumeLimiter limiter, IMachine machine)
         {
             _Volume = volume;
-            _VolumeDetective = volumeDetective;
+            _VolumeDetective = volumeDetective ?? throw new ArgumentNullException(nameof(volumeDetective));
             _Limiter = limiter;
             _Machine = machine;
             _VolumeDetective.VolumeChanged += OnVolumeChanged;
