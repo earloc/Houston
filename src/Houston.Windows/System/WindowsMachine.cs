@@ -1,8 +1,5 @@
-﻿using Houston.System;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
-using System.Text;
 
 namespace Houston.System.Windows
 {

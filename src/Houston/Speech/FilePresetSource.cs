@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,7 +16,8 @@ namespace Houston.Speech
 
         private readonly FileInfo _Source;
 
-        public FilePresetSource(FileInfo source) {
+        public FilePresetSource(FileInfo source)
+        {
             _Source = source;
 
             var token = _TokenSource.Token;
@@ -33,7 +33,7 @@ namespace Houston.Speech
             });
         }
 
-    public event EventHandler Changed;
+        public event EventHandler Changed;
 
         public Task<IEnumerable<string>> GetPresetsAsync()
         {
@@ -57,20 +57,20 @@ namespace Houston.Speech
         #region IDisposable Support
         private bool disposedValue = false;
 
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!disposedValue)
+        protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (!disposedValue)
             {
-                _TokenSource.Dispose();
-                _Monitor.Dispose();
+                if (disposing)
+                {
+                    _TokenSource.Dispose();
+                    _Monitor.Dispose();
+                }
+                disposedValue = true;
             }
-            disposedValue = true;
         }
-    }
 
-    public void Dispose() => Dispose(true);
-    #endregion
-}
+        public void Dispose() => Dispose(true);
+        #endregion
+    }
 }

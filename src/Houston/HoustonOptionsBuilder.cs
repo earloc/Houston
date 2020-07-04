@@ -1,7 +1,7 @@
-﻿using System;
-using Houston.Audio;
+﻿using Houston.Audio;
 using Houston.Speech;
 using Houston.System;
+using System;
 #nullable enable
 
 namespace Houston
@@ -30,7 +30,8 @@ namespace Houston
             return this;
         }
 
-        public HoustonOptionsBuilder CheckForVolumeChangesEvery(TimeSpan value) {
+        public HoustonOptionsBuilder CheckForVolumeChangesEvery(TimeSpan value)
+        {
             Options.ObserverDelay = value;
             return this;
         }

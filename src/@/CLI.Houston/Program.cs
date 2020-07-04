@@ -1,9 +1,7 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
-using Houston;
-using System.Threading.Tasks;
-using Houston.Audio;
+﻿using Houston;
 using Houston.Audio.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace CLI.Houston
 {
@@ -11,7 +9,7 @@ namespace CLI.Houston
     {
         static Task Main(string[] args)
         {
-             var services = new ServiceCollection();
+            var services = new ServiceCollection();
             Configure(services);
 
             using var provider = services.BuildServiceProvider();
@@ -22,7 +20,8 @@ namespace CLI.Houston
 
         }
 
-        static void Configure(ServiceCollection services) {
+        static void Configure(ServiceCollection services)
+        {
             services.AddHouston(x => x.UseVolumeControl<WindowsVolumeControl>());
 
             services.AddScoped<App>();

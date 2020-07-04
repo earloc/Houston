@@ -7,7 +7,7 @@ namespace Houston.Audio
 
         public int MaxVolume { get; set; } = 10;
 
-        public bool IsEnabled {get; set;}
+        public bool IsEnabled { get; set; }
 
         public VolumeLimiter(IVolumeControl master)
         {

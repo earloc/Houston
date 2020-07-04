@@ -1,9 +1,5 @@
-using Houston.Extensions;
-using Houston.Speech;
 using Houston.System;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Houston.Audio
 {
@@ -24,7 +20,7 @@ namespace Houston.Audio
             _VolumeDetective.IsMutedChanged += OnIsMutedChanged;
         }
 
-        private void OnVolumeChanged(object? sender, ValueChangedEventArgs<int> e) 
+        private void OnVolumeChanged(object? sender, ValueChangedEventArgs<int> e)
             => CurrentVolume = e.To;
 
         private void OnIsMutedChanged(object? sender, ValueChangedEventArgs<bool> e)
@@ -34,7 +30,8 @@ namespace Houston.Audio
         public decimal CurrentVolume
         {
             get => _CurrentVolume;
-            set {
+            set
+            {
                 _CurrentVolume = value;
                 _Volume.Current = Convert.ToInt32(value);
                 OnAudioChanged();
@@ -43,19 +40,24 @@ namespace Houston.Audio
 
         private void OnAudioChanged() => AudioChanged?.Invoke(this, EventArgs.Empty);
 
-        public decimal LimitVolume {
-            get { 
-                return _Limiter.MaxVolume; 
+        public decimal LimitVolume
+        {
+            get
+            {
+                return _Limiter.MaxVolume;
             }
-            set { 
+            set
+            {
                 _Limiter.MaxVolume = Convert.ToInt32(Math.Round(value));
                 OnAudioChanged();
             }
         }
 
-        public bool IsVolumeLimitEnabled {
+        public bool IsVolumeLimitEnabled
+        {
             get => _Limiter.IsEnabled;
-            set {
+            set
+            {
                 _Limiter.IsEnabled = value;
                 OnAudioChanged();
             }
@@ -69,9 +71,11 @@ namespace Houston.Audio
         public int MinVolume => 0;
         public int MaxVolume => 100;
 
-        public bool IsMuted {
+        public bool IsMuted
+        {
             get => _Volume.IsMuted;
-            set {
+            set
+            {
                 _Volume.IsMuted = value;
                 OnAudioChanged();
             }
@@ -102,7 +106,7 @@ namespace Houston.Audio
 
         public void CancelShutdown() => _Machine.CancelShutdown();
 
-     
+
 
     }
 }

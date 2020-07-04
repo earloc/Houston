@@ -1,7 +1,7 @@
-using System;
-using System.Threading.Tasks;
 using Houston.Audio;
 using Houston.Speech;
+using System;
+using System.Threading.Tasks;
 
 namespace CLI.Houston
 {

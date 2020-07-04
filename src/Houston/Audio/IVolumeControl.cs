@@ -1,6 +1,3 @@
-
-using System;
-
 namespace Houston.Audio
 {
     public interface IVolumeControl

@@ -29,9 +29,9 @@ namespace Houston.Audio
             });
         }
 
-        private Task _Detective;
+        private readonly Task _Detective;
 
-        private CancellationTokenSource _Run = new CancellationTokenSource();
+        private readonly CancellationTokenSource _Run = new CancellationTokenSource();
 
         private void NotifyChanges()
         {
