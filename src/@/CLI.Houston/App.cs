@@ -49,22 +49,22 @@ namespace CLI.Houston
                 }
 
                 var pressed = Console.ReadKey();
-                if (pressed.Key == ConsoleKey.Multiply)
+                if (pressed.Key == ConsoleKey.Multiply || pressed.Key == ConsoleKey.RightArrow)
                 {
                     _Master.IsMuted = !_Master.IsMuted;
                 }
 
-                if (pressed.Key == ConsoleKey.Add)
+                if (pressed.Key == ConsoleKey.Add || pressed.Key == ConsoleKey.UpArrow)
                 {
                     _Master.Current = _Master.Current + 5;
                 }
 
-                if (pressed.Key == ConsoleKey.Subtract)
+                if (pressed.Key == ConsoleKey.Subtract || pressed.Key == ConsoleKey.DownArrow)
                 {
                     _Master.Current = _Master.Current - 5;
                 }
 
-                if (pressed.Key == ConsoleKey.Tab)
+                if (pressed.Key == ConsoleKey.Tab || pressed.Key == ConsoleKey.LeftArrow)
                 {
                     _Obrigkeit.IsEnabled = !_Obrigkeit.IsEnabled;
                 }
@@ -74,7 +74,7 @@ namespace CLI.Houston
                     _Obrigkeit.MaxVolume += 5;
                 }
 
-                if (pressed.Key == ConsoleKey.W)
+                if (pressed.Key == ConsoleKey.S)
                 {
                     _Obrigkeit.MaxVolume -= 5;
                 }
