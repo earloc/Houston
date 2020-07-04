@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Threading;
 
 namespace Web.Houston
 {
@@ -29,7 +31,7 @@ namespace Web.Houston
             _ = services.AddHouston(options => options
                   .UseVolumeControl<WindowsVolumeControl>()
                   .UseMachine<WindowsMachine>()
-                  .UseVoice<PowershellSynthesizedVoice>(_Configuration.GetSection("VoicePresetPath").Value.ToString() ?? "VoicePresets.txt")
+                  .UseVoice<PowershellSynthesizedVoice>(_Configuration.GetSection("VoicePresetPath").Value.ToString(Thread.CurrentThread.CurrentCulture) ?? "VoicePresets.txt")
             );
         }
 
