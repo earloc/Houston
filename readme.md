@@ -3,11 +3,11 @@ Project Houston is a set of assemblies and apps to maintain freedom in a househo
 
 Featues implemented:
 
-- [o] set the master volume of a pc from a web-frontend
-- [ ] limit the master volume to a specified value, even if someone manipulates it _on site_
-- [ ] shutdown the pc
-- [ ] issue a synthesized text to the pc
-- [ ] ???
+- [x] set the master volume of a pc from a web-frontend
+- [x] limit the master volume to a specified value, even if someone manipulates it _on site_
+- [x] shutdown the pc
+- [x] issue a synthesized text to the pc
+
 
 ## legend
 - [ ] - to be implemented
