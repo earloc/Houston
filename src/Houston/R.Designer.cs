@@ -61,7 +61,7 @@ namespace Houston {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to canelling shutdown.
+        ///   Looks up a localized string similar to cancelling shutdown.
         /// </summary>
         internal static string InMemoryMachine_CancelShutdown {
             get {
