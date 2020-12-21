@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Houston.System
+namespace Houston.System.Mocks
 {
     public class InMemoryMachine : IMachine
     {

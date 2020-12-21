@@ -43,7 +43,7 @@ namespace Houston.Windows.Speech
                 var p = Process.Start(start);
 
                 // The wait may not work! :(  
-                return Task.Run(() => p.WaitForExit());
+                return Task.Run(() => p?.WaitForExit());
             }
         }
     }

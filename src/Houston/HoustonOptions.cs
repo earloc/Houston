@@ -8,11 +8,11 @@ namespace Houston
 {
     public class HoustonOptions
     {
-        public Type VolumeControlType { get; internal set; } = typeof(InMemoryVolumeControl);
+        public Type VolumeControlType { get; internal set; }
 
-        public Type MachineType { get; internal set; } = typeof(InMemoryMachine);
+        public Type MachineType { get; internal set; }
 
-        public Type VoiceType { get; internal set; } = typeof(ConsoleVoice);
+        public Type VoiceType { get; internal set; }
 
         public TimeSpan ObserverDelay { get; internal set; } = TimeSpan.FromMilliseconds(50);
         public string VoicePresetSource { get; internal set; } = "./VoicePresets.txt";

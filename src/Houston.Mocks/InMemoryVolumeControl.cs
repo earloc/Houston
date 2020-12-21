@@ -1,4 +1,6 @@
-namespace Houston.Audio
+using Houston.Audio;
+
+namespace Houston.Audio.Mocks
 {
     public class InMemoryVolumeControl : IVolumeControl
     {
