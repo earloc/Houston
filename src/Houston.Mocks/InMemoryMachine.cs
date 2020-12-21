@@ -11,7 +11,7 @@ namespace Houston.System.Mocks
 
         public void Shutdown(TimeSpan shutdownIn)
         {
-            Console.WriteLine($"shutting down in {shutdownIn}");
+            Console.WriteLine(R.InMemoryMachine_ShuttingDownIn, shutdownIn);
         }
     }
 }
