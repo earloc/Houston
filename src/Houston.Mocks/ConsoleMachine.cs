@@ -2,7 +2,7 @@
 
 namespace Houston.System.Mocks
 {
-    public class InMemoryMachine : IMachine
+    public class ConsoleMachine : IMachine
     {
         public void CancelShutdown()
         {
