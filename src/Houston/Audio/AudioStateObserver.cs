@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.Threading;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -74,7 +73,7 @@ namespace Houston.Audio
 
         private bool disposedValue = false; // To detect redundant calls
 
-        protected virtual async Task DisposeAsync(bool disposing)
+        protected virtual async ValueTask DisposeAsync(bool disposing)
         {
             if (!disposedValue)
             {
@@ -91,6 +90,6 @@ namespace Houston.Audio
             }
         }
 
-        public Task DisposeAsync() => DisposeAsync(true);
+        public ValueTask DisposeAsync() => DisposeAsync(true);
     }
 }
