@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
+    <UserSecretsId>2c48b56c-e3b9-4ba2-a992-04e4ab50ce0c</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

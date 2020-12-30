@@ -31,7 +31,7 @@ namespace Web.Houston
             _ = services.AddHouston(options => options
                   .UseVolumeControl<WindowsVolumeControl>()
                   .UseMachine<WindowsMachine>()
-                  .UseVoice<PowershellSynthesizedVoice>(_Configuration.GetSection("VoicePresetPath").Value.ToString(Thread.CurrentThread.CurrentCulture) ?? "VoicePresets.txt")
+                  .UseVoice<PowershellSynthesizedVoice>()
             );
         }
 
