@@ -21,7 +21,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://bianka:8080;https://bianka:8081"
+      "applicationUrl": "http://localhost:8080;https://localhost:8081"
     }
   }
 }
