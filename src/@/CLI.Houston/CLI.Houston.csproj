@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Houston.Microsoft.Extensions.DependencyInjection\Houston.Microsoft.Extensions.DependencyInjection.csproj" />
     <ProjectReference Include="..\..\Houston.Windows\Houston.Windows.csproj" />
   </ItemGroup>
 

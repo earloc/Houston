@@ -17,7 +17,6 @@ namespace CLI.Houston
             var app = scope.ServiceProvider.GetRequiredService<App>();
 
             return app.RunAsync();
-
         }
 
         static void Configure(ServiceCollection services)
