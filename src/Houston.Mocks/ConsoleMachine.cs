@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Houston.System
+namespace Houston.System.Mocks
 {
-    public class InMemoryMachine : IMachine
+    public class ConsoleMachine : IMachine
     {
         public void CancelShutdown()
         {
@@ -11,7 +11,7 @@ namespace Houston.System
 
         public void Shutdown(TimeSpan shutdownIn)
         {
-            Console.WriteLine($"shutting down in {shutdownIn}");
+            Console.WriteLine(R.InMemoryMachine_ShuttingDownIn, shutdownIn);
         }
     }
 }

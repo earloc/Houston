@@ -25,6 +25,11 @@ namespace Web.Houston
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+            .UseDefaultServiceProvider(x =>
+            {
+                x.ValidateOnBuild = true;
+                x.ValidateScopes = true;
+            });
     }
 }

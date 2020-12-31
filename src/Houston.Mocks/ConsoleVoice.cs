@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Houston.Speech
+namespace Houston.Speech.Mocks
 {
     internal class ConsoleVoice : IVoice
     {

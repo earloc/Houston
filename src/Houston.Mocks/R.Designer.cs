@@ -61,11 +61,20 @@ namespace Houston {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to cancelling shutdown.
         /// </summary>
-        internal static string HoustonOptions_PlatformDoesNotSupportOrConfigure {
+        internal static string InMemoryMachine_CancelShutdown {
             get {
-                return ResourceManager.GetString("HoustonOptions_PlatformDoesNotSupportOrConfigure", resourceCulture);
+                return ResourceManager.GetString("InMemoryMachine_CancelShutdown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to shutting down in &apos;{0}&apos;.
+        /// </summary>
+        internal static string InMemoryMachine_ShuttingDownIn {
+            get {
+                return ResourceManager.GetString("InMemoryMachine_ShuttingDownIn", resourceCulture);
             }
         }
     }

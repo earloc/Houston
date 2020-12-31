@@ -2,37 +2,40 @@
 using Houston.Speech;
 using Houston.System;
 using System;
-#nullable enable
 
 namespace Houston
 {
     public class HoustonOptionsBuilder
     {
 
-        public HoustonOptions Options { get; } = new HoustonOptions();
+        private PlatformOptions platform = new ();
 
         public HoustonOptionsBuilder UseVolumeControl<T>() where T : IVolumeControl
         {
-            Options.VolumeControlType = typeof(T);
+            platform.VolumeControlType = typeof(T);
             return this;
         }
 
         public HoustonOptionsBuilder UseMachine<T>() where T : IMachine
         {
-            Options.MachineType = typeof(T);
+            platform.MachineType = typeof(T);
             return this;
         }
 
-        public HoustonOptionsBuilder UseVoice<T>(string presetPath) where T : IVoice
+        public HoustonOptions Build()
         {
-            Options.VoicePresetSource = presetPath;
-            Options.VoiceType = typeof(T);
+            return new HoustonOptions(platform);
+        }
+
+        public HoustonOptionsBuilder UseVoice<T>() where T : IVoice
+        {
+            platform.VoiceType = typeof(T);
             return this;
         }
 
         public HoustonOptionsBuilder CheckForVolumeChangesEvery(TimeSpan value)
         {
-            Options.ObserverDelay = value;
+            //Options.ObserverDelay = value;
             return this;
         }
 
