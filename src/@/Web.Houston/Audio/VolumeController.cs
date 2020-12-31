@@ -25,8 +25,8 @@ namespace Web.Houston.Audio
             return control.Current;
         }
 
-        [HttpPut("{volume:int?}")]
-        public int Volume(int? volume)
+        [HttpPut("{volume:double?}")]
+        public int Volume(double? volume)
         {
             //TODO: this should go into a handler or sth!
             control.IsMuted = false;
@@ -34,7 +34,7 @@ namespace Web.Houston.Audio
             if (!volume.HasValue) return control.Current;
 
             //TODO: handle values exceeding 0 and 100
-            return control.Current = volume.Value;
+            return control.Current = Convert.ToInt32(Math.Floor(volume.Value));
         }
 
         [HttpDelete]
