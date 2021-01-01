@@ -102,9 +102,9 @@ namespace Houston.Audio
             }
         }
 
-        public void Shutdown() => _Machine.Shutdown(TimeSpan.FromSeconds(60));
+        public void Shutdown() => _Machine.ShutdownAsync(TimeSpan.FromSeconds(60));
 
-        public void CancelShutdown() => _Machine.CancelShutdown();
+        public void CancelShutdown() => _Machine.CancelShutdownAsync();
 
 
 

@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Houston.System.Windows
 {
     public class WindowsMachine : IMachine
     {
-        public void CancelShutdown() => Process.Start("shutdown", "-a");
+        public Task CancelShutdownAsync() => 
+            Process.Start("shutdown", "-a")
+            .WaitForExitAsync();
 
-        public void Shutdown(TimeSpan @in)
-        {
-            Process.Start("shutdown", $"/t {Math.Round(@in.TotalSeconds)} /s");
-        }
-
+        public Task ShutdownAsync(TimeSpan @in) => 
+            Process.Start("shutdown", $"/t {Math.Round(@in.TotalSeconds)} /s")
+            .WaitForExitAsync();
     }
 }
