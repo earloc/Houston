@@ -7,7 +7,7 @@ namespace Houston.Audio
     public class AudioStateObserver : IAsyncDisposable
     {
         private readonly IVolumeControl _Master;
-        private int? _LastKnownVolume = 0;
+        private int _LastKnownVolume = 0;
         private bool? _LastKnownIsMuted;
 
         public AudioStateObserver(IVolumeControl master, HoustonOptions options, VolumeLimiter limit)
@@ -71,7 +71,7 @@ namespace Houston.Audio
 
         public event EventHandler<ValueChangedEventArgs<bool>>? IsMutedChanged;
 
-        private bool disposedValue = false; // To detect redundant calls
+        private bool disposedValue = false;
 
         protected virtual async ValueTask DisposeAsync(bool disposing)
         {
