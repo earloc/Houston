@@ -24,8 +24,8 @@
              Disabled="@ViewModel.IsVolumeLimitDisabled">
   </MatSlider>
 </span>
-<MatButton Label="Shutdown" Icon="power_off" OnClick="() => ViewModel.Shutdown()"></MatButton>
-<MatButton Label="Cancel" Icon="power_on" OnClick="() => ViewModel.CancelShutdown()"></MatButton>
+<MatButton Label="Shutdown" Icon="power_off" OnClick="async () => await ViewModel.ShutdownAsync()"></MatButton>
+<MatButton Label="Cancel" Icon="power_on" OnClick="async () => await ViewModel.CancelShutdownAsync()"></MatButton>
 
 @code {
   private string _CustomText = $"{System.Environment.MachineName}, was geht ab?";

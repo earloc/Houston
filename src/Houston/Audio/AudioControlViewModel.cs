@@ -1,5 +1,6 @@
 using Houston.System;
 using System;
+using System.Threading.Tasks;
 
 namespace Houston.Audio
 {
@@ -102,9 +103,9 @@ namespace Houston.Audio
             }
         }
 
-        public void Shutdown() => _Machine.ShutdownAsync(TimeSpan.FromSeconds(60));
+        public Task ShutdownAsync() => _Machine.ShutdownAsync(TimeSpan.FromSeconds(60));
 
-        public void CancelShutdown() => _Machine.CancelShutdownAsync();
+        public Task CancelShutdownAsync() => _Machine.CancelShutdownAsync();
 
 
 
