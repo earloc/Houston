@@ -1,5 +1,6 @@
 ﻿using Houston.Audio;
 using Houston.Audio.Commands;
+using Houston.Audio.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,10 +25,7 @@ namespace Web.Houston.Audio
         }
 
         [HttpGet]
-        public int Volume()
-        {
-            return volume.Current;
-        }
+        public async Task<int> Volume() => (await mediator.Send(new GetVolumeQuery.Request())).Volume;
 
         [HttpGet("[action]")]
         public bool IsMuted()
@@ -36,23 +34,14 @@ namespace Web.Houston.Audio
         }
 
         [HttpPut("{volume:double}")]
-        public async Task<int> Volume(double volume) 
-        {
-            var response = await mediator.Send(new SetVolumeCommand.Request((int)Math.Floor(volume)));
-            return response.Volume;
-        }
-
+        public async Task<int> Volume(double volume) => (await mediator.Send(new SetVolumeCommand.Request((int)Math.Floor(volume)))).Volume;
 
         [HttpPut("[action]/{isMuted:bool}")]
-        public bool IsMuted(bool isMuted)
-        {
-            return volume.IsMuted = isMuted;
-        }
+        public Task<bool> IsMuted(bool isMuted) => MuteAsync(isMuted);
 
         [HttpDelete]
-        public bool Mute()
-        {
-            return volume.IsMuted = true;
-        }
+        public Task<bool> Mute() => MuteAsync(true);
+
+        private async Task<bool> MuteAsync(bool isMuted) => (await mediator.Send(new SetIsMutedCommand.Request(isMuted))).IsMuted;
     }
 }

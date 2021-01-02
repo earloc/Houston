@@ -58,7 +58,7 @@ namespace Houston.Tests.Integrations.Audio
         [InlineData(050)]
         [InlineData(075)]
         [InlineData(100)]
-        public async Task SetsVolume_UnMutes_Automatically(int expected)
+        public async Task SetVolume_UnMutes_Automatically(int expected)
         {
             volume.IsMuted = true;
             var response = await mediator.Send(new SetVolumeCommand.Request(expected));
