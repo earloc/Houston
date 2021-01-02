@@ -6,11 +6,11 @@ namespace Houston.Audio
 {
     public class AudioStateObserver : IAsyncDisposable
     {
-        private readonly IVolumeControl _Master;
+        private readonly IVolumeController _Master;
         private int _LastKnownVolume = 0;
         private bool? _LastKnownIsMuted;
 
-        public AudioStateObserver(IVolumeControl master, HoustonOptions options, VolumeLimiter limit)
+        public AudioStateObserver(IVolumeController master, HoustonOptions options, VolumeLimiter limit)
         {
             if (options is null)
             {

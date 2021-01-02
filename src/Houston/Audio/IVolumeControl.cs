@@ -1,6 +1,6 @@
 namespace Houston.Audio
 {
-    public interface IVolumeControl
+    public interface IVolumeController
     {
         int Current { get; set; }
         bool IsMuted { get; set; }

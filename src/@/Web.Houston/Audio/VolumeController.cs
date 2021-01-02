@@ -12,9 +12,9 @@ namespace Web.Houston.Audio
     [ApiController]
     public class VolumeController : ControllerBase
     {
-        private readonly IVolumeControl control;
+        private readonly IVolumeController control;
 
-        public VolumeController(IVolumeControl control)
+        public VolumeController(IVolumeController control)
         {
             this.control = control;
         }

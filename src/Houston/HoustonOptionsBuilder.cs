@@ -10,7 +10,7 @@ namespace Houston
 
         private PlatformOptions platform = new ();
 
-        public HoustonOptionsBuilder UseVolumeControl<T>() where T : IVolumeControl
+        public HoustonOptionsBuilder UseVolumeControl<T>() where T : IVolumeController
         {
             platform.VolumeControlType = typeof(T);
             return this;

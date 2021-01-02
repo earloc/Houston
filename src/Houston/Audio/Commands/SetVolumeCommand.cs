@@ -15,9 +15,9 @@ namespace Houston.Audio.Commands
         
         public class DefaultHandler : RequestHandler<Request, Response>
         {
-            private readonly IVolumeControl volumeControl;
+            private readonly IVolumeController volumeControl;
 
-            public DefaultHandler(IVolumeControl volumeControl)
+            public DefaultHandler(IVolumeController volumeControl)
             {
                 this.volumeControl = volumeControl;
             }

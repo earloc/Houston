@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Houston.Audio.Windows
 {
-    public class WindowsVolumeControl : IVolumeControl
+    public class WindowsVolumeControl : IVolumeController
     {
         public bool IsMuted
         {
@@ -21,7 +21,6 @@ namespace Houston.Audio.Windows
                 UnsafeNativeMethods.SetMasterVolume(value);
             }
         }
-
     }
 
     /// <summary>

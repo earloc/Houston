@@ -7,14 +7,14 @@ namespace CLI.Houston
 {
     public class App
     {
-        public App(IVolumeControl master, VolumeLimiter obrigkeit, IVoice voice)
+        public App(IVolumeController master, VolumeLimiter obrigkeit, IVoice voice)
         {
             _Master = master;
             _Obrigkeit = obrigkeit;
             _Voice = voice;
         }
 
-        private readonly IVolumeControl _Master;
+        private readonly IVolumeController _Master;
         private readonly VolumeLimiter _Obrigkeit;
         private readonly IVoice _Voice;
 

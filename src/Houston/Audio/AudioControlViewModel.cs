@@ -6,12 +6,12 @@ namespace Houston.Audio
 {
     public class AudioControlViewModel : IDisposable
     {
-        private readonly IVolumeControl _Volume;
+        private readonly IVolumeController _Volume;
         private readonly AudioStateObserver _VolumeDetective;
         private readonly VolumeLimiter _Limiter;
         private readonly IMachine _Machine;
 
-        public AudioControlViewModel(IVolumeControl volume, AudioStateObserver volumeDetective, VolumeLimiter limiter, IMachine machine)
+        public AudioControlViewModel(IVolumeController volume, AudioStateObserver volumeDetective, VolumeLimiter limiter, IMachine machine)
         {
             _Volume = volume;
             _VolumeDetective = volumeDetective ?? throw new ArgumentNullException(nameof(volumeDetective));
