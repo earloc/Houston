@@ -24,6 +24,8 @@ namespace Houston.Tests.Integrations
                 .UseVolumeControl<InMemoryVolumeControl>()
             );
 
+            services.AddTransient<IVolume, ManagedVolume>();
+
             var provider = services.BuildServiceProvider(new ServiceProviderOptions()
             {
                 ValidateOnBuild = true,
@@ -31,9 +33,11 @@ namespace Houston.Tests.Integrations
             });
 
             Mediator = provider.GetRequiredService<IMediator>();
+            Volume = provider.GetRequiredService<IVolume>();
         }
 
         public IMediator Mediator;
+        public IVolume Volume;
 
     }
 }

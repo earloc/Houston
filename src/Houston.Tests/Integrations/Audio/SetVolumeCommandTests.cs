@@ -19,11 +19,11 @@ namespace Houston.Tests.Integrations.Audio
         }
 
         [Theory]
-        [InlineData(0)]
-        [InlineData(10)]
-        [InlineData(25)]
-        [InlineData(50)]
-        [InlineData(75)]
+        [InlineData(000)]
+        [InlineData(010)]
+        [InlineData(025)]
+        [InlineData(050)]
+        [InlineData(075)]
         [InlineData(100)]
         public async Task SetsVolume_To_Valid_Value(int expected)
         {
@@ -34,11 +34,11 @@ namespace Houston.Tests.Integrations.Audio
         }
 
         [Theory]
-        [InlineData(100)]
-        [InlineData(110)]
-        [InlineData(125)]
-        [InlineData(150)]
-        [InlineData(175)]
+        [InlineData(0100)]
+        [InlineData(0110)]
+        [InlineData(0125)]
+        [InlineData(0150)]
+        [InlineData(0175)]
         [InlineData(1000)]
         public async Task Limits_Volume_Exceeding_Default_UpperBounds(int value)
         {
@@ -51,11 +51,11 @@ namespace Houston.Tests.Integrations.Audio
         }
 
         [Theory]
-        [InlineData(-0)]
-        [InlineData(-10)]
-        [InlineData(-25)]
-        [InlineData(-50)]
-        [InlineData(-75)]
+        [InlineData(-000)]
+        [InlineData(-010)]
+        [InlineData(-025)]
+        [InlineData(-050)]
+        [InlineData(-075)]
         [InlineData(-100)]
         public async Task Limits_Volume_Exceeding_Default_LowerBounds(int value)
         {
@@ -65,6 +65,30 @@ namespace Houston.Tests.Integrations.Audio
             var expected = 0;
 
             actual.Should().Be(expected, "this denotes the minimum lower bound value");
+        }
+
+        [Theory]
+        [InlineData(026, 025)]
+        [InlineData(050, 025)]
+        [InlineData(075, 025)]
+        [InlineData(100, 025)]
+        [InlineData(051, 050)]
+        [InlineData(075, 050)]
+        [InlineData(100, 050)]
+        [InlineData(076, 075)]
+        [InlineData(100, 075)]
+        public async Task Limits_Volume_ToMaximum_IfEnabled(int value, int maximum)
+        {
+
+            fixture.Volume.MaxVolume = maximum;
+            fixture.Volume.IsManagingMaxVolume = true;
+
+            var response = await fixture.Mediator.Send(new SetVolumeCommand.Request(value));
+            var actual = response.Volume;
+
+            var expected = maximum;
+
+            actual.Should().Be(expected, "this should be the current maximum");
         }
     }
 }

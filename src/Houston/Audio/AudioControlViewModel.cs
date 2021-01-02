@@ -64,7 +64,6 @@ namespace Houston.Audio
 
         public bool IsVolumeLimitDisabled => !IsVolumeLimitEnabled;
 
-
         public EventHandler? AudioChanged { get; set; }
 
         public int MinVolume { get; } = 0;
