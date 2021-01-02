@@ -24,9 +24,16 @@ namespace Houston.Audio.Commands
 
             protected override Response Handle(Request request)
             {
-                var volume = volumeControl.Current = request.Volume;
+                var desiredVolume = request.Volume switch
+                {
+                    > 100 => 100,
+                    < 0 => 0,
+                    _ => request.Volume
+                };
 
-                return new(volume);
+                var actualVolume = volumeControl.Current = desiredVolume;
+
+                return new(actualVolume);
             }
         }
     }
