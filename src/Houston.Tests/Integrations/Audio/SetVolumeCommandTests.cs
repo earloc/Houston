@@ -40,7 +40,7 @@ namespace Houston.Tests.Integrations.Audio
         [InlineData(150)]
         [InlineData(175)]
         [InlineData(1000)]
-        public async Task Limits_Values_Exceeding_Default_UpperBounds(int value)
+        public async Task Limits_Volume_Exceeding_Default_UpperBounds(int value)
         {
             var response = await fixture.Mediator.Send(new SetVolumeCommand.Request(value));
             var actual = response.Volume;
@@ -57,7 +57,7 @@ namespace Houston.Tests.Integrations.Audio
         [InlineData(-50)]
         [InlineData(-75)]
         [InlineData(-100)]
-        public async Task Limits_Values_Exceeding_Default_LowerBounds(int value)
+        public async Task Limits_Volume_Exceeding_Default_LowerBounds(int value)
         {
             var response = await fixture.Mediator.Send(new SetVolumeCommand.Request(value));
             var actual = response.Volume;

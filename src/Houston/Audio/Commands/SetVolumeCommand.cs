@@ -15,11 +15,11 @@ namespace Houston.Audio.Commands
         
         public class DefaultHandler : RequestHandler<Request, Response>
         {
-            private readonly IVolumeController volumeControl;
+            private readonly IVolume volume;
 
-            public DefaultHandler(IVolumeController volumeControl)
+            public DefaultHandler(IVolume volume)
             {
-                this.volumeControl = volumeControl;
+                this.volume = volume;
             }
 
             protected override Response Handle(Request request)
@@ -31,7 +31,7 @@ namespace Houston.Audio.Commands
                     _ => request.Volume
                 };
 
-                var actualVolume = volumeControl.Current = desiredVolume;
+                var actualVolume = volume.Current = desiredVolume;
 
                 return new(actualVolume);
             }

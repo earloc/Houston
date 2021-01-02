@@ -6,16 +6,14 @@ namespace Houston.Audio
 {
     public class AudioControlViewModel : IDisposable
     {
-        private readonly IVolumeController _Volume;
+        private readonly IVolume _Volume;
         private readonly AudioStateObserver _VolumeDetective;
-        private readonly VolumeLimiter _Limiter;
         private readonly IMachine _Machine;
 
-        public AudioControlViewModel(IVolumeController volume, AudioStateObserver volumeDetective, VolumeLimiter limiter, IMachine machine)
+        public AudioControlViewModel(IVolume volume, AudioStateObserver volumeDetective, IMachine machine)
         {
             _Volume = volume;
             _VolumeDetective = volumeDetective ?? throw new ArgumentNullException(nameof(volumeDetective));
-            _Limiter = limiter;
             _Machine = machine;
             _VolumeDetective.VolumeChanged += OnVolumeChanged;
             _VolumeDetective.IsMutedChanged += OnIsMutedChanged;
@@ -45,21 +43,21 @@ namespace Houston.Audio
         {
             get
             {
-                return _Limiter.MaxVolume;
+                return _Volume.MaxVolume;
             }
             set
             {
-                _Limiter.MaxVolume = Convert.ToInt32(Math.Round(value));
+                _Volume.MaxVolume = Convert.ToInt32(Math.Round(value));
                 OnAudioChanged();
             }
         }
 
         public bool IsVolumeLimitEnabled
         {
-            get => _Limiter.IsEnabled;
+            get => _Volume.IsManagingMaxVolume;
             set
             {
-                _Limiter.IsEnabled = value;
+                _Volume.IsManagingMaxVolume = value;
                 OnAudioChanged();
             }
         }
@@ -87,7 +85,7 @@ namespace Houston.Audio
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        private bool disposedValue = false; // To detect redundant calls
+        private bool disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
         {

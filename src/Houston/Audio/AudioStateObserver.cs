@@ -6,18 +6,18 @@ namespace Houston.Audio
 {
     public class AudioStateObserver : IAsyncDisposable
     {
-        private readonly IVolumeController _Master;
-        private int _LastKnownVolume = 0;
-        private bool? _LastKnownIsMuted;
+        private readonly IVolume volume;
+        private int lastKnownVolume = 0;
+        private bool? lastKnownIsMuted;
 
-        public AudioStateObserver(IVolumeController master, HoustonOptions options, VolumeLimiter limit)
+        public AudioStateObserver(IVolume volume, HoustonOptions options)
         {
             if (options is null)
             {
                 throw new ArgumentNullException(nameof(options));
             }
 
-            _Master = master;
+            this.volume = volume;
             var delay = options.ObserverDelay;
 
             _Detective = Task.Run(async () =>
@@ -27,7 +27,7 @@ namespace Houston.Audio
                     await Task.Delay(delay)
                         .ConfigureAwait(false);
 
-                    limit.Enforce();
+                    volume.Enforce();
                     NotifyChanges();
                 }
             });
@@ -45,11 +45,11 @@ namespace Houston.Audio
 
         private void NotifyWhenVolumeChanged()
         {
-            var currentVolume = _Master.Current;
-            if (currentVolume != _LastKnownVolume)
+            var currentVolume = volume.Current;
+            if (currentVolume != lastKnownVolume)
             {
-                var args = new ValueChangedEventArgs<int>(_LastKnownVolume, currentVolume);
-                _LastKnownVolume = currentVolume;
+                var args = new ValueChangedEventArgs<int>(lastKnownVolume, currentVolume);
+                lastKnownVolume = currentVolume;
 
                 VolumeChanged?.Invoke(this, args);
             }
@@ -57,12 +57,12 @@ namespace Houston.Audio
 
         private void NotifyWhenIsMutedChanged()
         {
-            var isMuted = _Master.IsMuted;
+            var isMuted = volume.IsMuted;
 
-            if (isMuted != _LastKnownIsMuted)
+            if (isMuted != lastKnownIsMuted)
             {
-                var args = new ValueChangedEventArgs<bool>(_LastKnownIsMuted, isMuted);
-                _LastKnownIsMuted = isMuted;
+                var args = new ValueChangedEventArgs<bool>(lastKnownIsMuted, isMuted);
+                lastKnownIsMuted = isMuted;
                 IsMutedChanged?.Invoke(this, args);
             }
         }
