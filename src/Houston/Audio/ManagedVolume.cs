@@ -18,10 +18,27 @@ namespace Houston.Audio
         public bool IsManagingMaxVolume { get; set; } = false;
 
         public int MaxVolume { get; set; } = 100;
+
         public int Current { 
             get => controller.Current; 
-            set => controller.Current = value; 
+            set => controller.Current = Limit(value); 
         }
+
+        private int Limit(int value)
+        {
+            if (IsManagingMaxVolume)
+            {
+                value = Math.Min(MaxVolume, value);
+            }
+
+            return value switch
+            {
+                > 100 => 100,
+                < 0 => 0,
+                _ => value
+            };
+        }
+
         public bool IsMuted { 
             get => controller.IsMuted; 
             set => controller.IsMuted = value; 

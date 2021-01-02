@@ -1,5 +1,8 @@
 ﻿using FluentAssertions;
+using Houston.Audio;
 using Houston.Audio.Commands;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +12,29 @@ using Xunit;
 
 namespace Houston.Tests.Integrations.Audio
 {
-    public class SetVolumeCommandTests : IClassFixture<IntegrationFixture>
+    public class SetVolumeCommandTests : IDisposable
     {
-        private readonly IntegrationFixture fixture;
 
-        public SetVolumeCommandTests(IntegrationFixture fixture)
+        private IMediator mediator => scope.ServiceProvider.GetRequiredService<IMediator>();
+
+        private IServiceScope scope;
+
+        private IVolume volume => scope.ServiceProvider.GetRequiredService<IVolume>();
+
+
+        public SetVolumeCommandTests()
         {
-            this.fixture = fixture;
+            var services = new ServiceCollection();
+
+            services.AddHouston(options => options.UseMocks());
+
+            var provider = services.BuildServiceProvider(new ServiceProviderOptions()
+            {
+                ValidateOnBuild = true,
+                ValidateScopes = true
+            });
+
+            scope = provider.CreateScope();
         }
 
         [Theory]
@@ -27,7 +46,7 @@ namespace Houston.Tests.Integrations.Audio
         [InlineData(100)]
         public async Task SetsVolume_To_Valid_Value(int expected)
         {
-            var response = await fixture.Mediator.Send(new SetVolumeCommand.Request(expected));
+            var response = await mediator.Send(new SetVolumeCommand.Request(expected));
             var actual = response.Volume;
 
             actual.Should().Be(expected, "that´s what should be accepted and adopted");
@@ -42,7 +61,7 @@ namespace Houston.Tests.Integrations.Audio
         [InlineData(1000)]
         public async Task Limits_Volume_Exceeding_Default_UpperBounds(int value)
         {
-            var response = await fixture.Mediator.Send(new SetVolumeCommand.Request(value));
+            var response = await mediator.Send(new SetVolumeCommand.Request(value));
             var actual = response.Volume;
 
             var expected = 100;
@@ -59,7 +78,7 @@ namespace Houston.Tests.Integrations.Audio
         [InlineData(-100)]
         public async Task Limits_Volume_Exceeding_Default_LowerBounds(int value)
         {
-            var response = await fixture.Mediator.Send(new SetVolumeCommand.Request(value));
+            var response = await mediator.Send(new SetVolumeCommand.Request(value));
             var actual = response.Volume;
 
             var expected = 0;
@@ -80,15 +99,31 @@ namespace Houston.Tests.Integrations.Audio
         public async Task Limits_Volume_ToMaximum_IfEnabled(int value, int maximum)
         {
 
-            fixture.Volume.MaxVolume = maximum;
-            fixture.Volume.IsManagingMaxVolume = true;
+            volume.MaxVolume = maximum;
+            volume.IsManagingMaxVolume = true;
 
-            var response = await fixture.Mediator.Send(new SetVolumeCommand.Request(value));
+            var response = await mediator.Send(new SetVolumeCommand.Request(value));
             var actual = response.Volume;
 
             var expected = maximum;
 
             actual.Should().Be(expected, "this should be the current maximum");
+        }
+
+        public void Dispose() => Dispose(true);
+
+        private bool disposed = false;
+        private void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            scope.Dispose();
+
+            disposed = true;
+
         }
     }
 }

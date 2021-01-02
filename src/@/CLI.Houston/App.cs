@@ -7,16 +7,14 @@ namespace CLI.Houston
 {
     public class App
     {
-        public App(IVolumeController master, VolumeLimiter obrigkeit, IVoice voice)
+        public App(IVolume volume, IVoice voice)
         {
-            _Master = master;
-            _Obrigkeit = obrigkeit;
-            _Voice = voice;
+            this.volume = volume;
+            this.voice = voice;
         }
 
-        private readonly IVolumeController _Master;
-        private readonly VolumeLimiter _Obrigkeit;
-        private readonly IVoice _Voice;
+        private readonly IVolume volume;
+        private readonly IVoice voice;
 
         public async Task RunAsync()
         {
@@ -28,7 +26,7 @@ namespace CLI.Houston
                 while (run)
                 {
                     await Task.Delay(2000).ConfigureAwait(false);
-                    _Obrigkeit.Enforce();
+                    volume.Enforce();
                 }
             });
 
@@ -39,9 +37,9 @@ namespace CLI.Houston
                 Console.SetCursorPosition(0, 0);
                 System.Console.WriteLine();
                 Console.SetCursorPosition(0, 0);
-                var mutedState = _Master.IsMuted ? "Off" : "On ";
-                var limiterState = _Obrigkeit.IsEnabled ? $"({_Obrigkeit.MaxVolume})" : "";
-                Console.WriteLine($"{mutedState} / {_Master.Current}{limiterState}");
+                var mutedState = volume.IsMuted ? "Off" : "On ";
+                var limiterState = volume.IsManagingMaxVolume? $"({volume.MaxVolume})" : "";
+                Console.WriteLine($"{mutedState} / {volume.Current}{limiterState}");
 
                 if (!Console.KeyAvailable)
                 {
@@ -51,32 +49,32 @@ namespace CLI.Houston
                 var pressed = Console.ReadKey();
                 if (pressed.Key == ConsoleKey.Multiply || pressed.Key == ConsoleKey.RightArrow)
                 {
-                    _Master.IsMuted = !_Master.IsMuted;
+                    volume.IsMuted = !volume.IsMuted;
                 }
 
                 if (pressed.Key == ConsoleKey.Add || pressed.Key == ConsoleKey.UpArrow)
                 {
-                    _Master.Current = _Master.Current + 5;
+                    volume.Current = volume.Current + 5;
                 }
 
                 if (pressed.Key == ConsoleKey.Subtract || pressed.Key == ConsoleKey.DownArrow)
                 {
-                    _Master.Current = _Master.Current - 5;
+                    volume.Current = volume.Current - 5;
                 }
 
                 if (pressed.Key == ConsoleKey.Tab || pressed.Key == ConsoleKey.LeftArrow)
                 {
-                    _Obrigkeit.IsEnabled = !_Obrigkeit.IsEnabled;
+                    volume.IsManagingMaxVolume = !volume.IsManagingMaxVolume;
                 }
 
                 if (pressed.Key == ConsoleKey.W)
                 {
-                    _Obrigkeit.MaxVolume += 5;
+                    volume.MaxVolume += 5;
                 }
 
                 if (pressed.Key == ConsoleKey.S)
                 {
-                    _Obrigkeit.MaxVolume -= 5;
+                    volume.MaxVolume -= 5;
                 }
             }
 

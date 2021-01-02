@@ -21,13 +21,15 @@ namespace Houston
 
             services.AddSingleton(options);
 
-            services.AddSingleton<IVolume, ManagedVolume>();
+            services.AddScoped<IVolume, ManagedVolume>();
+            services.AddScoped<AudioStateObserver>();
+
             services.AddSingleton(typeof(IVolumeController), options.VolumeControlType);
             services.AddSingleton(typeof(IMachine), options.MachineType);
             services.AddSingleton(typeof(IVoice), options.VoiceType);
 
             services.AddSingleton<IPresetSource, FilePresetSource>(_ => new FilePresetSource(new FileInfo(options.VoicePresetSource)));
-            services.AddSingleton<AudioStateObserver>();
+            
 
             services.AddScoped<AudioControlViewModel>();
             services.AddScoped<VoiceViewModel>();
