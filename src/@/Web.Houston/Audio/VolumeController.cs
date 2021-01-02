@@ -1,4 +1,6 @@
 ﻿using Houston.Audio;
+using Houston.Audio.Commands;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,45 +14,45 @@ namespace Web.Houston.Audio
     [ApiController]
     public class VolumeController : ControllerBase
     {
-        private readonly IVolumeController control;
+        private readonly IMediator mediator;
+        private readonly IVolume volume;
 
-        public VolumeController(IVolumeController control)
+        public VolumeController(IMediator mediator, IVolume volume)
         {
-            this.control = control;
+            this.mediator = mediator;
+            this.volume = volume;
         }
 
         [HttpGet]
         public int Volume()
         {
-            return control.Current;
+            return volume.Current;
         }
 
         [HttpGet("[action]")]
         public bool IsMuted()
         {
-            return control.IsMuted;
+            return volume.IsMuted;
         }
 
-        [HttpPut("{volume:double?}")]
-        public int Volume(double? volume)
+        [HttpPut("{volume:double}")]
+        public async Task<int> Volume(double volume) 
         {
-            if (!volume.HasValue) return control.Current;
-
-            //TODO: handle values exceeding 0 and 100
-            return control.Current = Convert.ToInt32(Math.Floor(volume.Value));
+            var response = await mediator.Send(new SetVolumeCommand.Request((int)Math.Floor(volume)));
+            return response.Volume;
         }
 
 
         [HttpPut("[action]/{isMuted:bool}")]
         public bool IsMuted(bool isMuted)
         {
-            return control.IsMuted = isMuted;
+            return volume.IsMuted = isMuted;
         }
 
         [HttpDelete]
         public bool Mute()
         {
-            return control.IsMuted = true;
+            return volume.IsMuted = true;
         }
     }
 }
