@@ -25,6 +25,12 @@ namespace Web.Houston.Audio
             return control.Current;
         }
 
+        [HttpGet("[action]")]
+        public bool IsMuted()
+        {
+            return control.IsMuted;
+        }
+
         [HttpPut("{volume:double?}")]
         public int Volume(double? volume)
         {
@@ -35,6 +41,13 @@ namespace Web.Houston.Audio
 
             //TODO: handle values exceeding 0 and 100
             return control.Current = Convert.ToInt32(Math.Floor(volume.Value));
+        }
+
+
+        [HttpPut("[action]/{isMuted:bool}")]
+        public bool IsMuted(bool isMuted)
+        {
+            return control.IsMuted = isMuted;
         }
 
         [HttpDelete]
