@@ -53,6 +53,20 @@ namespace Houston.Tests.Integrations.Audio
         }
 
         [Theory]
+        [InlineData(010)]
+        [InlineData(025)]
+        [InlineData(050)]
+        [InlineData(075)]
+        [InlineData(100)]
+        public async Task SetsVolume_UnMutes_Automatically(int expected)
+        {
+            volume.IsMuted = true;
+            var response = await mediator.Send(new SetVolumeCommand.Request(expected));
+
+            volume.IsMuted.Should().BeFalse("setting a value above 0 should unmute the target");
+        }
+
+        [Theory]
         [InlineData(0100)]
         [InlineData(0110)]
         [InlineData(0125)]

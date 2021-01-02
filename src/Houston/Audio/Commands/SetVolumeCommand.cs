@@ -24,6 +24,8 @@ namespace Houston.Audio.Commands
 
             protected override Response Handle(Request request)
             {
+                volume.IsMuted = false;
+
                 volume.Current = request.Volume;
 
                 return new(volume.Current);

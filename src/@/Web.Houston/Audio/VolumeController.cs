@@ -34,9 +34,6 @@ namespace Web.Houston.Audio
         [HttpPut("{volume:double?}")]
         public int Volume(double? volume)
         {
-            //TODO: this should go into a handler or sth!
-            control.IsMuted = false;
-
             if (!volume.HasValue) return control.Current;
 
             //TODO: handle values exceeding 0 and 100
