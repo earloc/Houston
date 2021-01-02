@@ -12,7 +12,6 @@ namespace Houston
     {
         public static IServiceCollection AddHouston(this IServiceCollection services, Action<HoustonOptionsBuilder>? configure = null)
         {
-
             services.AddMediatR(typeof(IServiceCollectionExtensions));
 
             var optionsBuilder = new HoustonOptionsBuilder();
@@ -29,7 +28,6 @@ namespace Houston
             services.AddSingleton(typeof(IVoice), options.VoiceType);
 
             services.AddSingleton<IPresetSource, FilePresetSource>(_ => new FilePresetSource(new FileInfo(options.VoicePresetSource)));
-            
 
             services.AddScoped<AudioControlViewModel>();
             services.AddScoped<VoiceViewModel>();
